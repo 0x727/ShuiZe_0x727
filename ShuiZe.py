@@ -1196,6 +1196,9 @@ def banner():
    /  \   __ __   |__  |  |_  )   |__  | 
   | () |  \ \ /     / /    / /      / /  
    \__/   /_\_\    /_/    /___|    /_/       auther:ske
+   
+   最好在配置文件里填入fofa、shodan、github的API，这样效果最佳。
+   配置文件地址：iniFile/config.ini
 '''
     print(banner)
 
