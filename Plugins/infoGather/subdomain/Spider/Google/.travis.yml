@@ -1,0 +1,25 @@
+language: python
+
+# Supported CPython versions:
+# https://en.wikipedia.org/wiki/CPython#Version_history
+python:
+ - pypy3
+ - pypy
+ - 2.7
+ - 3.6
+ - 3.5
+ - 3.4
+
+# Use container-based infrastructure
+sudo: false
+
+install:
+ - pip install pycodestyle pyflakes
+
+script:
+ # Static analysis
+ - pyflakes .
+ - pycodestyle --statistics --count .
+
+matrix:
+  fast_finish: true

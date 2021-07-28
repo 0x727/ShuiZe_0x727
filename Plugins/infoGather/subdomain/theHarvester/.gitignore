@@ -1,0 +1,14 @@
+*.idea
+*.pyc
+*.sqlite
+*.html
+*.htm
+*.vscode
+*.xml
+debug_results.txt
+venv
+.mypy_cache
+.pytest_cache
+build/
+dist/
+.DS_Store

@@ -1,0 +1,3 @@
+*.py[cod]
+.idea/*
+tmp/

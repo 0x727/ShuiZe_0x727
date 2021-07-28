@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root>
+    <!-- MySQL -->
+    <dbms value="MySQL">
+        <!--数据库报错-->
+        <error regexp="SQL syntax.*?MySQL"/>
+        <!--php mysql函数报错-->
+        <error regexp="Warning.*?mysql_"/>
+        <error regexp="MySqlException \(0x"/>
+        <error regexp="MySQLSyntaxErrorException"/>
+        <error regexp="valid MySQL result"/>
+        <error regexp="check the manual that corresponds to your (MySQL|MariaDB) server version"/>
+        <error regexp="Unknown column '[^ ]+' in 'field list'"/>
+        <error regexp="MySqlClient\."/>
+        <error regexp="com\.mysql\.jdbc\.exceptions"/>
+        <error regexp="Zend_Db_Statement_Mysqli_Exception"/>
+    </dbms>
+
+    <!-- PostgreSQL -->
+    <dbms value="PostgreSQL">
+        <error regexp="PostgreSQL.*?ERROR"/>
+        <error regexp="Warning.*?\Wpg_"/>
+        <error regexp="valid PostgreSQL result"/>
+        <error regexp="Npgsql\."/>
+        <error regexp="PG::SyntaxError:"/>
+        <error regexp="org\.postgresql\.util\.PSQLException"/>
+        <error regexp="ERROR:\s\ssyntax error at or near"/>
+    </dbms>
+
+    <!-- Microsoft SQL Server -->
+    <dbms value="SQLServer">
+        <error regexp="Driver.*? SQL[\-\_\ ]*Server"/>
+        <error regexp="OLE DB.*? SQL Server"/>
+        <error regexp="\bSQL Server[^&lt;&quot;]+Driver"/>
+        <error regexp="Warning.*?(mssql|sqlsrv)_"/>
+        <error regexp="\bSQL Server[^&lt;&quot;]+[0-9a-fA-F]{8}"/>
+        <error regexp="System\.Data\.SqlClient\.SqlException"/>
+        <error regexp="(?s)Exception.*?\WRoadhouse\.Cms\."/>
+        <error regexp="Microsoft SQL Native Client error '[0-9a-fA-F]{8}"/>
+        <error regexp="com\.microsoft\.sqlserver\.jdbc\.SQLServerException"/>
+        <error regexp="ODBC SQL Server Driver"/>
+        <error regexp="ODBC Driver \d+ for SQL Server"/>
+        <error regexp="SQLServer JDBC Driver"/>
+        <error regexp="macromedia\.jdbc\.sqlserver"/>
+        <error regexp="com\.jnetdirect\.jsql"/>
+        <error regexp="SQLSrvException"/>
+        <!--自己添加-->
+        <!--[Exception: 字符串 '100001029034255' and IsDel=0 ' 后的引号不完整。
+        '100001029034255' and IsDel=0 ' 附近有语法错误。]-->
+        <!--[SqlException (0x80131904): 字符串 '' 后的引号不完整。]-->
+        <!--[Exception: &#39;=&#39; éè¿æè¯­æ³éè¯¯ã]-->
+        <error regexp="\[.*?Exception: .*?39;"/>
+    </dbms>
+
+    <!-- Microsoft Access -->
+    <dbms value="Microsoft Access">
+        <error regexp="Microsoft Access (\d+ )?Driver"/>
+        <error regexp="JET Database Engine"/>
+        <error regexp="Access Database Engine"/>
+        <error regexp="ODBC Microsoft Access"/>
+        <error regexp="Syntax error \(missing operator\) in query expression"/>
+        <!--自己添加-->
+        <error regexp="Microsoft JET Database Engine"/>
+        <error regexp="Microsoft OLE DB Provider for ODBC Drivers"/>
+    </dbms>
+
+    <!-- Oracle -->
+    <dbms value="Oracle">
+        <error regexp="\bORA-\d{5}"/>
+        <error regexp="Oracle error"/>
+        <error regexp="Oracle.*?Driver"/>
+        <error regexp="Warning.*?\Woci_"/>
+        <error regexp="Warning.*?\Wora_"/>
+        <error regexp="oracle\.jdbc\.driver"/>
+        <error regexp="quoted string not properly terminated"/>
+        <error regexp="SQL command not properly ended"/>
+    </dbms>
+
+    <!--自己添加-->
+    <!--Java-->
+    <dbms value="Java">
+        <error regexp="The full stack trace of the root cause is available in the Apache"/>
+    </dbms>
+
+    <!--自己添加-->
+    <!--.net-->
+    <dbms value=".Net">
+        <error regexp="!-- Web.Config"/>
+        <!--字符串 '138'' 后的引号不完整。-->
+        <error regexp=" '.*?'' "/>
+        <!--字符串 '138'' 后的引号不完整。 可能有编码上的坑-->
+        <error regexp=" '.*?' .*?。"/>
+        <!--附近有语法错误。\r\n字符串 \u0027\u0027 后的引号不完整-->
+        <error regexp="后的引号不完整。"/>
+        <error regexp='pre {font-family:"Consolas","Lucida Console",Monospace;font-size:11pt;margin:0;padding:0.5em;line-height:14pt}'/>
+    </dbms>
+
+    <!--自己添加-->
+    <!-- PostgreSQL -->
+    <dbms value="Hibernate">
+        <error regexp="org.hibernate.QueryException: unexpected char"/>
+    </dbms>
+
+    <!-- IBM DB2 -->
+    <dbms value="IBM DB2">
+        <error regexp="CLI Driver.*?DB2"/>
+        <error regexp="DB2 SQL error"/>
+        <error regexp="\bdb2_\w+\("/>
+        <error regexp="SQLSTATE.+SQLCODE"/>
+    </dbms>
+
+    <!-- Informix -->
+    <dbms value="Informix">
+        <error regexp="Exception.*?Informix"/>
+        <error regexp="Informix ODBC Driver"/>
+        <error regexp="com\.informix\.jdbc"/>
+        <error regexp="weblogic\.jdbc\.informix"/>
+    </dbms>
+
+    <!-- Interbase/Firebird -->
+    <dbms value="Firebird">
+        <error regexp="Dynamic SQL Error"/>
+        <error regexp="Warning.*?ibase_"/>
+    </dbms>
+
+    <!-- SQLite -->
+    <dbms value="SQLite">
+        <error regexp="SQLite/JDBCDriver"/>
+        <error regexp="SQLite\.Exception"/>
+        <error regexp="(Microsoft|System)\.Data\.SQLite\.SQLiteException"/>
+        <error regexp="Warning.*?sqlite_"/>
+        <error regexp="Warning.*?SQLite3::"/>
+        <error regexp="\[SQLITE_ERROR\]"/>
+        <error regexp="SQLite error \d+:"/>
+        <error regexp="sqlite3.OperationalError:"/>
+        <error regexp="System.Data.SQLite."/>
+    </dbms>
+
+    <!-- SAP MaxDB -->
+    <dbms value="SAP MaxDB">
+        <error regexp="SQL error.*?POS([0-9]+)"/>
+        <error regexp="Warning.*?maxdb"/>
+    </dbms>
+
+    <!-- Sybase -->
+    <dbms value="Sybase">
+        <error regexp="Warning.*?sybase"/>
+        <error regexp="Sybase message"/>
+        <error regexp="Sybase.*?Server message"/>
+        <error regexp="SybSQLException"/>
+        <error regexp="com\.sybase\.jdbc"/>
+    </dbms>
+
+    <!-- Ingres -->
+    <dbms value="Ingres">
+        <error regexp="Warning.*?ingres_"/>
+        <error regexp="Ingres SQLSTATE"/>
+        <error regexp="Ingres\W.*?Driver"/>
+    </dbms>
+
+    <!-- Frontbase -->
+    <dbms value="Frontbase">
+        <error regexp="Exception (condition )?\d+\. Transaction rollback"/>
+        <error regexp="com\.frontbase\.jdbc"/>
+    </dbms>
+
+    <!-- HSQLDB -->
+    <dbms value="HSQLDB">
+        <error regexp="org\.hsqldb\.jdbc"/>
+        <error regexp="Unexpected end of command in statement \["/>
+        <error regexp="Unexpected token.*?in statement \["/>
+    </dbms>
+
+</root>
