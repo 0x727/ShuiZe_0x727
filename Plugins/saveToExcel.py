@@ -154,17 +154,19 @@ class saveToExcel:
     # 保存host碰撞结果
     def saveHostCollide(self, hostCollideResult):
         self.sheet.cell(self.Sheet_line, 1).value = 'Host'
-        self.sheet.cell(self.Sheet_line, 2).value = 'IP'
+        self.sheet.cell(self.Sheet_line, 2).value = 'URL'
         self.sheet.cell(self.Sheet_line, 3).value = '状态码'
-        self.sheet.cell(self.Sheet_line, 4).value = '标题'
+        self.sheet.cell(self.Sheet_line, 4).value = '带Host的标题'
+        self.sheet.cell(self.Sheet_line, 5).value = '不带Host的标题'
         self.Sheet_line += 1
 
         for _ in hostCollideResult:
-            host, ip, code, title = _
+            host, ip, code, title, title2 = _
             self.sheet.cell(self.Sheet_line, 1).value = host
             self.sheet.cell(self.Sheet_line, 2).value = ip
             self.sheet.cell(self.Sheet_line, 3).value = code
             self.sheet.cell(self.Sheet_line, 4).value = str(title)
+            self.sheet.cell(self.Sheet_line, 5).value = str(title2)
             self.Sheet_line += 1
         self.excel.save(self.excelSavePath)
 

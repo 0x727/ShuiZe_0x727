@@ -114,11 +114,11 @@ class Detect(threading.Thread):
                 title = self.get_title(res)
                 title2 = self.get_title(res2)
                 # 过滤直接访问IP也是正常响应，例如：host, ip = ["apitest.mobile.meituan.com", "47.108.170.229"]
-                if title != title2:
+                if res2.status_code != 200:
                     code = res.status_code
                     if code != 502 and code != 400:
-                        print("[{}] {} {} {}".format(code, url, host, title))
-                        self.hostCollideResult.append([host, url, code, title])
+                        print("[{}] {} {} {} {}".format(code, url, host, title, title2))
+                        self.hostCollideResult.append([host, url, code, title, title2])
             except Exception as e:
                 pass
 
