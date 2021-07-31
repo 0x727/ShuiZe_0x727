@@ -543,9 +543,11 @@ def get_ip2domain():
     newDomains.extend(_newDomains)
 
     # 去重
-    ip2domainSubdomains = []                        # 反查出来的子域名列表
-    for subdomain in ip2domain_dict.values():
-        ip2domainSubdomains.extend(subdomain)
+    ip2domainSubdomains = []                        # 反查出来的子域名列表    ['ca.hbu.edu.cn', 'jwjcc.bdu.edu.cn', 'yzuuc.hbu.cn']
+    for subdomains in ip2domain_dict.values():
+        for subdomain in subdomains:
+            if domain in subdomain:
+                ip2domainSubdomains.append(subdomain)
     ip2domainSubdomains = list(set(ip2domainSubdomains))
 
     ip2domainSheet = saveToExcel(excelSavePath, excel, 'ip反查域名')    # 创建一个ip反查域名页
