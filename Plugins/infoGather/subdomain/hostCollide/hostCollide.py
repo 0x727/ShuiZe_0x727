@@ -163,6 +163,10 @@ def run_hostCollide(domain, Subdomains_ips):
         allIps = list(set(allIps))
         print('共 {} 个IP'.format(len(allIps)))
 
+        # 避免太多的子域名去碰撞
+        if len(internal_ip_Subdomains) > 5:
+            internal_ip_Subdomains = internal_ip_Subdomains[:5]
+
         hostIPS_q = Queue(-1)
         for ip in allIps:
             for host in internal_ip_Subdomains:
