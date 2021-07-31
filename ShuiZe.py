@@ -324,6 +324,17 @@ def checkCDN_queryA_subdomains(Subdomains_ips, subdomains):
 
     return Subdomains_ips, CDNSubdomainsDict, notCDNSubdomains
 
+# host碰撞
+def hostCollide(Subdomains_ips):
+    cprint('-' * 50 + 'run_hostCollide ...' + '-' * 50, 'green')  # 启动网络空间引擎
+    from Plugins.infoGather.subdomain.hostCollide import hostCollide
+    hostCollideResult, censysIPS = hostCollide.run_hostCollide(domain, Subdomains_ips)
+
+    # 保存到excel
+    queryASheet = saveToExcel(excelSavePath, excel, 'HOST碰撞')
+    queryASheet.saveHostCollide(hostCollideResult)
+
+    return censysIPS
 
 # 获取所有子域名的参数链接和后台链接（存活）
 def run_ParamLinks():
@@ -342,7 +353,7 @@ def run_ParamLinks():
     return paramLinks
 
 # 整理IP，获取C段IP
-def get_CIP(Subdomains_ips, CDNSubdomainsDict):
+def get_CIP(Subdomains_ips, CDNSubdomainsDict, censysIPS):
     cprint('-' * 50 + 'get_CIP ...' + '-' * 50, 'green')  # 整理C段IP
     # 过滤内网IP
     def is_internal_ip(ip_subnet):
@@ -366,6 +377,8 @@ def get_CIP(Subdomains_ips, CDNSubdomainsDict):
             for ip in ip_List:
                 if not is_internal_ip(ip):
                     ips.append(ip)
+
+    ips.extend(censysIPS)
 
     for ip in list(set(ips)):
         c_subnet = str(IP(ip).make_net('255.255.255.0')).rsplit('.', 1)[0] + '.0'
@@ -531,7 +544,7 @@ def get_ip2domain():
 
     # 去重
     ip2domainSubdomains = []                        # 反查出来的子域名列表
-    for subdomain in _newDomains:
+    for subdomain in ip2domain_dict.values():
         ip2domainSubdomains.extend(subdomain)
     ip2domainSubdomains = list(set(ip2domainSubdomains))
 
@@ -573,15 +586,18 @@ def collation_web_host(Subdomains_ips, webSpace_web_host_port, ip2domainSubdomai
         host_port_urlparse = urlparse(host_port)
         if not host_port_urlparse.scheme:           # 如果没有http（https）， 则加上。如果是443端口，则加https，其他端口加http
             if ':' in host_port:
-                host, port = host_port.split(':')
-                if isIP(host):
-                    web_ip_list.append(host)
-                if port == '443':
-                    host_port = 'https://{}'.format(host)
-                elif port == '80':
-                    host_port = 'http://{}'.format(host)
-                else:
-                    host_port = 'http://{}'.format(host_port)
+                try:
+                    host, port = host_port.split(':')
+                    if isIP(host):
+                        web_ip_list.append(host)
+                    if port == '443':
+                        host_port = 'https://{}'.format(host)
+                    elif port == '80':
+                        host_port = 'http://{}'.format(host)
+                    else:
+                        host_port = 'http://{}'.format(host_port)
+                except Exception as e:
+                    pass
             else:
                 host_port = 'http://{}'.format(host_port)
         else:   # 如果有https或者http，则不加
@@ -932,11 +948,14 @@ def run_subdomain():
     # 7. 整合子域名，对所有子域名判断是否是CDN,解析A记录，并将所有子域名结果保存到excel里
     Subdomains_ips, CDNSubdomainsDict, notCDNSubdomains = checkCDN_queryA_subdomains(Subdomains_ips, subdomains)
 
+    # host碰撞,censysIPS是censys api得到的解析的IP
+    censysIPS = hostCollide(Subdomains_ips)
+
     # 8. 获取所有子域名的参数链接（存活）
     param_Links = run_ParamLinks()
 
     # 获取C段的IP
-    CIP_List = get_CIP(Subdomains_ips, CDNSubdomainsDict)
+    CIP_List = get_CIP(Subdomains_ips, CDNSubdomainsDict, censysIPS)
     print('C段的IP:{}'.format(CIP_List))
 
     # 8. 跑C段
@@ -1197,7 +1216,7 @@ def banner():
   | () |  \ \ /     / /    / /      / /  
    \__/   /_\_\    /_/    /___|    /_/       auther:ske
    
-   最好在配置文件里填入fofa、shodan、github的API，这样效果最佳。
+   最好在配置文件里填入fofa、shodan、github、censys的API，这样效果最佳。
    配置文件地址：iniFile/config.ini
 '''
     print(banner)

@@ -31,7 +31,7 @@ def ip2domain(allTargets_Queue, domain, _domain, ip2domain_dict, num, newDomains
                     print('[{}] {}'.format(ip, domains))
                     if domain:
                         for each in domains:
-                            if _domain in each and domain not in each:
+                            if _domain in each and domain not in each and len(each) > 1:
                                 newDomains.append(each)
         except Exception as e:
             print('[error] ip2domain: {}'.format(e.args))

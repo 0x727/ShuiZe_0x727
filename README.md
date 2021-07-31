@@ -247,3 +247,17 @@ POC的模板文件例子：`Plugins/Vul/Web/__template__.py`
 
 ![](imgs/xmind.png)
 
+
+## 0x07 新增功能
+
+2021.7.31 增加了Censys接口，需要在iniFile/config.ini的[censys api]中填入API。 功能是获取域名的所有解析IP记录，一是为了Host碰撞，二是更加准确的得到C段IP
+
+需要censys的api，免费的账户一个月只有250次查询，所以后期需要注意，用完了要更新api
+
+2021.7.31 增加了Host碰撞访问内网系统漏洞，感谢小洲提交的建议
+
+![](imgs/hostCollide.png)
+
+## 0x08 反馈
+
+如有bug，欢迎提交iss反馈。如有优化意见，欢迎交流。
