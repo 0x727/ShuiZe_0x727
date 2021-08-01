@@ -150,16 +150,19 @@ def query_A(subdomain):
 # 通过IP判断是否是CDN
 def ipASNSCheckCDN(subdomain):
     ips = query_A(subdomain)
-    for ip in ips:
-        for cdn in cdns:
-            if ipaddress.ip_address(ip) in ipaddress.ip_network(cdn):
-                return ['CDN IP段', cdn]
 
     with geoip2.database.Reader('Plugins/infoGather/subdomain/CDN/GeoLite2-ASN.mmdb') as reader:
-        response = reader.asn('115.238.192.243')
-        asnsNum = response.autonomous_system_number
-        if str(asnsNum) in ASNS:
-            return ['CDN ASNS范围', asnsNum]
+        for ip in ips:
+            # 通过CDN的IP段判断
+            for cdn in cdns:
+                if ipaddress.ip_address(ip) in ipaddress.ip_network(cdn):
+                    return ['CDN IP段', cdn]
+
+            # 通过ASN判断
+            response = reader.asn(ip)
+            asnsNum = response.autonomous_system_number
+            if str(asnsNum) in ASNS:
+                return ['CDN ASNS范围', asnsNum]
 
     return []
 

@@ -258,6 +258,10 @@ POC的模板文件例子：`Plugins/Vul/Web/__template__.py`
 
 ![](imgs/hostCollide.png)
 
+2021.8.1 修复了CDN判断的bug，感谢 leveryd 师傅提交的bug。
+
+issues地址：https://github.com/0x727/ShuiZe_0x727/issues/3 
+
 ## 0x08 反馈
 
 如有bug，欢迎提交iss反馈。如有优化意见，欢迎交流。
