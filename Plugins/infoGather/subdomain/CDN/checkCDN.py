@@ -152,6 +152,7 @@ def ipASNSCheckCDN(subdomain):
     ips = query_A(subdomain)
 
     with geoip2.database.Reader('Plugins/infoGather/subdomain/CDN/GeoLite2-ASN.mmdb') as reader:
+    # with geoip2.database.Reader('./GeoLite2-ASN.mmdb') as reader:
         for ip in ips:
             # 通过CDN的IP段判断
             for cdn in cdns:
@@ -159,10 +160,13 @@ def ipASNSCheckCDN(subdomain):
                     return ['CDN IP段', cdn]
 
             # 通过ASN判断
-            response = reader.asn(ip)
-            asnsNum = response.autonomous_system_number
-            if str(asnsNum) in ASNS:
-                return ['CDN ASNS范围', asnsNum]
+            try:
+                response = reader.asn(ip)
+                asnsNum = response.autonomous_system_number
+                if str(asnsNum) in ASNS:
+                    return ['CDN ASNS范围', asnsNum]
+            except Exception as e:
+                pass
 
     return []
 
@@ -235,7 +239,7 @@ def run_checkCDN(subdomains):
 
 
 if __name__ == "__main__":
-    subdomains = ['']
+    subdomains = ['mgm.tiqianle.com']
     notCDNSubdomains, CDNSubdomainsDict = run_checkCDN(subdomains)
     print(CDNSubdomainsDict)
 
