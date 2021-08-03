@@ -262,6 +262,10 @@ POC的模板文件例子：`Plugins/Vul/Web/__template__.py`
 
 issues地址：https://github.com/0x727/ShuiZe_0x727/issues/3 
 
+2021.8.3 修复了chinazApi接口请求超时太长的bug，设置默认时间10秒，感谢 k0njac 师傅提交的bug。
+
+issues地址：https://github.com/0x727/ShuiZe_0x727/issues/11 
+
 ## 0x08 反馈
 
 如有bug，欢迎提交iss反馈。如有优化意见，欢迎交流。
