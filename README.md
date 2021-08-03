@@ -279,3 +279,7 @@ ShuiZe（水泽） 是一个免费且开源的项目，我们欢迎任何人为�
 * 贡献代码请提交 PR 至 dev 分支，master 分支仅用于发布稳定可用版本。
 
 *提醒：和项目相关的问题最好在 issues 中反馈，这样方便其他有类似问题的人可以快速查找解决方法，并且也避免了我们重复回答一些问题。*
+
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/0x727/ShuiZe_0x727.svg)](https://starchart.cc/0x727/ShuiZe_0x727)
