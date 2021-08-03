@@ -1,5 +1,7 @@
 # 水泽-信息收集自动化工具
 
+[![GitHub release](https://img.shields.io/github/release/0x727/ShuiZe_0x727.svg)](https://github.com/0x727/ShuiZe_0x727/releases)
+
 郑重声明：文中所涉及的技术、思路和工具仅供以安全为目的的学习交流使用，任何人不得将其用于非法用途以及盈利等目的，否则后果自行承担。
 
 ## 0x01 介绍
