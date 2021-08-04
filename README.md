@@ -6,9 +6,9 @@
 
 ## 0x01 介绍
 
-作者：Ske
+作者：[Ske](https://github.com/SkewwG)
 
-团队：0x727，未来一段时间将陆续开源工具，地址：https://github.com/0x727
+团队：[0x727](https://github.com/0x727)，未来一段时间将陆续开源工具，地址：https://github.com/0x727
 
 定位：协助红队人员快速的信息收集，测绘目标资产，寻找薄弱点
 
