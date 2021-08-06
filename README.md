@@ -23,8 +23,7 @@
 为了避免踩坑,建议安装在如下环境中
 
 * 当前用户对该目录有写权限，不然扫描结果无法生成。root权限即可
-* Python环境必须是3.7以上，因为使用了异步。建议VPS环境是ubuntu20，默认是python3.8
-
+* Python环境必须是3.7以上，因为使用了异步。建议VPS环境是ubuntu20，默认是python3.8。安装模块的时候切记不要走豆瓣的源
 * 在配置文件iniFile/config.ini里加入api（fofa、shodan、github、virustotal）
 
 ```
@@ -37,6 +36,12 @@ chmod 777 build.sh
 `python3 ShuiZe.py -h`
 
 ![image-20210728154929084](imgs/image-20210728154929084.png)
+
+
+
+
+
+
 
 ## 0x03 效果展示
 
