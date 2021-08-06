@@ -44,7 +44,8 @@ chmod 777 build.sh
 
 通过下面的命令安装docker，然后拉取python3.8的容器，再git clone水泽后，运行docker_build.sh即可。
 
-```apt install docker.io
+```
+apt install docker.io
 docker pull yankovg/python3.8.2-ubuntu18.04
 docker run -itd yankovg/python3.8.2-ubuntu18.04 bash
 docker exec -it docker的ID /bin/bash
