@@ -38,10 +38,26 @@ chmod 777 build.sh
 ![image-20210728154929084](imgs/image-20210728154929084.png)
 
 
+### docker运行ShuiZe
 
+较多人反馈安装的时候会出现各种报错，新增通过docker运行ShuiZe
 
+通过下面的命令安装docker，然后拉取python3.8的容器，再git clone水泽后，运行docker_build.sh即可。
 
-
+```apt install docker.io
+docker pull yankovg/python3.8.2-ubuntu18.04
+docker run -itd yankovg/python3.8.2-ubuntu18.04 bash
+docker exec -it docker的ID /bin/bash
+apt-get update
+apt install git --fix-missing
+apt install vim
+rm /usr/bin/python3
+ln -s /usr/local/bin/python3.8 /usr/bin/python3
+python3 -m pip install --upgrade pip
+git clone https://github.com/0x727/ShuiZe_0x727.git
+chmod 777 docker_build.sh
+./docker_build.sh
+```
 
 ## 0x03 效果展示
 

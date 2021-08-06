@@ -1,3 +1,5 @@
+openpyxl==2.6.4
+Cython
 aiodns==2.0.0
 aiohttp==3.6.2
 aiosqlite==0.13.0
@@ -14,7 +16,6 @@ Click==7.0
 click-plugins==1.1.1
 cloudscraper==1.2.46
 colorama==0.4.1
-colored==1.4.0
 cryptography==2.8
 Cython==0.29.15
 dnslib==0.9.10
@@ -26,7 +27,6 @@ FOFA==1.0.1
 geoip2==4.0.2
 gevent
 google==2.0.3
-greenlet==0.4.15
 idna==2.8
 IPy==1.0
 itsdangerous==1.1.0
