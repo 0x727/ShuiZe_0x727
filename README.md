@@ -306,4 +306,4 @@ ShuiZe（水泽） 是一个免费且开源的项目，我们欢迎任何人为�
 
 [![Stargazers over time](https://starchart.cc/0x727/ShuiZe_0x727.svg)](https://starchart.cc/0x727/ShuiZe_0x727)
 
-<img align='right' src="https://profile-counter.glitch.me/summersec/count.svg" width="200">
+<img align='right' src="https://profile-counter.glitch.me/ShuiZe_0x727/count.svg" width="200">
