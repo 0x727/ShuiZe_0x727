@@ -121,7 +121,7 @@ ASNS = [
 ]
 
 cdnDict = {}
-with open(r'Plugins/infoGather/subdomain/CDN/cdn-domain.conf', 'rt') as f:
+with open(r'Plugins/infoGather/subdomain/CDN/cdn-domain.conf', 'rt', encoding='utf-8') as f:
 # with open(r'cdn-domain.conf', 'rt') as f:
     for eachline in f.readlines():
         eachline = eachline.strip()
