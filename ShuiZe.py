@@ -546,7 +546,10 @@ def get_ip2domain():
     ip2domainSubdomains = []                        # 反查出来的子域名列表    ['ca.hbu.edu.cn', 'jwjcc.bdu.edu.cn', 'yzuuc.hbu.cn']
     for subdomains in ip2domain_dict.values():
         for subdomain in subdomains:
-            if domain in subdomain:
+            if domain:
+                if domain in subdomain:
+                    ip2domainSubdomains.append(subdomain)
+            else:
                 ip2domainSubdomains.append(subdomain)
     ip2domainSubdomains = list(set(ip2domainSubdomains))
 
