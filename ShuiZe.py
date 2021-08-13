@@ -76,7 +76,7 @@ def isIP(str):
         return False
 
 # 获取github敏感信息
-def get_GitSensitiveInfo(github_txt):
+def get_GitSensitiveInfo(github_txt, raw_url_emails):
     cf = configparser.ConfigParser()
     cf.read("./iniFile/config.ini")
     secs = cf.sections()
@@ -112,15 +112,18 @@ def get_GitSensitiveInfo(github_txt):
                     githubAddr = get_githubAddr(line)
                     # print(githubAddr)
                     if githubAddr:
-                        print('github address: [line:{}] {}'.format(githubAddr, content[int(githubAddr) - 1].replace('[------------------]', '').strip()))
+                        raw_url = content[int(githubAddr) - 1].replace('[------------------]', '').strip()
+                        emails = str(raw_url_emails[raw_url])
+                        print('github address: [line:{}] {}'.format(githubAddr, raw_url))
+                        print('[emails] : {}'.format(emails))
                         print('[{}] [line:{}] {}'.format(keyword, line, content[line - 1].strip()))
                         print('[{}] [line:{}] {}'.format(keyword, line + 1, content[line].strip()))
                         print('[{}] [line:{}] {}'.format(keyword, line + 2, content[line + 1].strip()))
-                        gitSensitiveInfo.append(['gitAddress', githubAddr, content[int(githubAddr) - 1].replace('[------------------]', '').strip()])
-                        gitSensitiveInfo.append([keyword, line, content[line - 1].strip()])
-                        gitSensitiveInfo.append([keyword, line + 1, content[line].strip()])
-                        gitSensitiveInfo.append([keyword, line + 2, content[line + 1].strip()])
-                        gitSensitiveInfo.append(['-' * 50, '-' * 50, '-' * 50])
+                        gitSensitiveInfo.append(['gitAddress', githubAddr, raw_url, emails])
+                        gitSensitiveInfo.append([keyword, line, content[line - 1].strip(), emails])
+                        gitSensitiveInfo.append([keyword, line + 1, content[line].strip(), emails])
+                        gitSensitiveInfo.append([keyword, line + 2, content[line + 1].strip(), emails])
+                        gitSensitiveInfo.append(['-' * 50, '-' * 50, '-' * 50, '-' * 50])
 
     return gitSensitiveInfo
 
@@ -231,13 +234,13 @@ def othersApiSubdomain():
 def githubApiSubdomain():
     cprint('-' * 50 + 'Load Github Api Subdomain ...' + '-' * 50, 'green')
     from Plugins.infoGather.subdomain.githubSubdomains.githubSubdomains import githubApiRun
-    githubApiSubdomains = githubApiRun(domain, save_fold_path)          # 列表，存放子域名
+    githubApiSubdomains, raw_url_emails = githubApiRun(domain, save_fold_path)          # 列表，存放子域名
 
     # 保存到excel
     githubSheet = saveToExcel(excelSavePath, excel, 'Github敏感信息')
     github_txt = r'{}/{}_github.txt'.format(save_fold_path, domain)
     if os.path.exists(github_txt):
-        gitSensitiveInfo = get_GitSensitiveInfo(github_txt)
+        gitSensitiveInfo = get_GitSensitiveInfo(github_txt, raw_url_emails)
         githubSheet.saveGithub(gitSensitiveInfo)
 
     return githubApiSubdomains

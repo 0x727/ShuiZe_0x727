@@ -93,16 +93,18 @@ class saveToExcel:
         self.sheet.cell(self.Sheet_line, 1).value = '关键字'
         self.sheet.cell(self.Sheet_line, 2).value = '行数'
         self.sheet.cell(self.Sheet_line, 3).value = '内容'
+        self.sheet.cell(self.Sheet_line, 4).value = '作者邮箱'
         self.Sheet_line += 1
 
         for info in gitSensitiveInfo:
-            keyword, line, content = info
+            keyword, line, content, email = info
             self.sheet.cell(self.Sheet_line, 1).value = keyword
             self.sheet.cell(self.Sheet_line, 2).value = line
             try:
                 self.sheet.cell(self.Sheet_line, 3).value = content
             except Exception as e:
                 self.sheet.cell(self.Sheet_line, 3).value = None            # 可能会报错
+            self.sheet.cell(self.Sheet_line, 4).value = email
             self.Sheet_line += 1
         self.excel.save(self.excelSavePath)
 

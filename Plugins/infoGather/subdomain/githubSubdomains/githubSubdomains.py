@@ -3,6 +3,7 @@ import re
 from threading import Thread
 from queue import Queue
 import configparser
+from termcolor import cprint
 import time
 
 '''
@@ -24,10 +25,12 @@ def githubApiSearchCode(domain, page):
     # q=搜索的关键字，q=signtool+sign+pfx+language:Batchfile  指定语言在q参数里，使用language参数
     # extension:pfx 指定后缀在q参数里，使用extension参数
     url = 'https://api.github.com/search/code?s=indexed&type=Code&o=desc&q="{}"&page={}&per_page={}'.format(domain, page, per_page)
-    # print(url)
+    print(url)
 
     try:
         res = requests.get(url=url, headers=headers, timeout=10)
+        if res.status_code == 401:
+            cprint("[!] github api 失效", "red")
         json_text = res.json()
         return json_text
     except Exception as e:
@@ -54,12 +57,35 @@ def getSubdomain(raw_q, i, github_subdomains, save_fold_path, domain):
                 f.write('[------------------] {} [------------------] \n'.format(raw_url))
                 f.write('{}\n'.format(text))
 
+            raw_url_split = raw_url.split('/')
+            username = raw_url_split[3]
+            repository = raw_url_split[4]
+            tags_url = "https://api.github.com/repos/{}/{}/tags".format(username, repository)
+            res = requests.get(url=tags_url, headers=headers, timeout=10)
+
+            allEmails = []
+            for each in eval(res.text):
+                commit_url = each["commit"]["url"]
+                commit_url_res = requests.get(url=commit_url, headers=headers, timeout=10)
+                commit_url_text = commit_url_res.text
+                # print(commit_url_text)
+                emails = re.findall('"email":"(.*?)",', commit_url_text)
+                print(emails)
+                if emails:
+                    allEmails.extend(emails)
+                time.sleep(1)
+            allEmails = list(set(allEmails))
+            raw_url_emails[raw_url] = allEmails
+
+
+
+
         except Exception as e:
             print('[-] {} errors: {}'.format(raw_url, e.args))
 
 # 初始化参数
 def init(domain):
-    global cmp, per_page, query, headers
+    global cmp, per_page, query, headers, raw_url_emails
     cf = configparser.ConfigParser()
     cf.read("./iniFile/config.ini")
     github_token = cf.get('github api', 'GITHUB_TOKEN')  # github的api token
@@ -67,7 +93,7 @@ def init(domain):
     cmp = re.compile(regexp)                                                # 模式对象
     per_page = 30                                                           # 每页的结果个数
     headers = {"Authorization": "token " + github_token}                    # api的请求头
-
+    raw_url_emails = {}
 
 
 # 调用github子域名功能
@@ -79,15 +105,15 @@ def githubApiRun(domain, save_fold_path):
     try:
         total_count = json_text['total_count']
     except Exception as e:
-        return []
+        return [], {}
 
     total_count = 300 if total_count > 300 else total_count
 
     pages = total_count // per_page           # 每页的数据是30个
-
+    print("pages:{}".format(pages))
 
     for page in range(1, pages):
-        # print('curl page{}'.format(page))
+        print('请求 page{}'.format(page))
         json_text = githubApiSearchCode(domain, page)
         if json_text and 'items' in json_text.keys():
             raw_q = Queue(-1)
@@ -104,7 +130,7 @@ def githubApiRun(domain, save_fold_path):
             for t in threads:
                 t.join()
 
-        print('[page: {}] [num: {}]'.format(page, len(github_subdomains)))
+        print('子域名个数: {}'.format(len(github_subdomains)))
         # time.sleep(2)
 
     github_subdomains = list(github_subdomains)
@@ -112,5 +138,6 @@ def githubApiRun(domain, save_fold_path):
     #     print(_)
 
     # print('[total: {}] {}'.format(len(github_subdomains), github_subdomains))
-    return github_subdomains
+    print(raw_url_emails)
+    return github_subdomains, raw_url_emails
 

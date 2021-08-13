@@ -290,6 +290,10 @@ issues地址：https://github.com/0x727/ShuiZe_0x727/issues/3
 
 issues地址：https://github.com/0x727/ShuiZe_0x727/issues/11 
 
+2021.8.13 增加了获取Github敏感信息地址的作者邮箱，帮助判断是否是目标员工的项目
+
+![](./imgs/github_auther.png)
+
 ## 0x08 反馈
 
 ShuiZe（水泽） 是一个免费且开源的项目，我们欢迎任何人为其开发和进步贡献力量。
