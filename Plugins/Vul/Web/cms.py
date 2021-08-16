@@ -54,6 +54,7 @@ class Detect(threading.Thread):
                        '79a95f4f1c2cc36eea51fe66450acfa2': 'Nexus',
                        '0c295d21ff53bdd0a95499db97acf0dd': 'Nexus',
                        'a91fbd46e52b1c1f8778906024bc9e15': 'NSFOCUS',
+                       "20760ee267465f92c8a70ab7b9406106": '360新天擎',
                        "9252bd07dbb6277f7ae898da87dada3a": '网康下一代防火墙'
                        }
 
