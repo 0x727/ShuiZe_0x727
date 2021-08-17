@@ -292,6 +292,10 @@ issues地址：https://github.com/0x727/ShuiZe_0x727/issues/11
 
 2021.8.13 增加了获取Github敏感信息地址的作者邮箱，帮助判断是否是目标员工的项目
 
+2021.8.17 更新了ksubdomain版本，自动选择网卡，不需要重新手动输入网卡
+
+ksubdomain项目地址：https://github.com/knownsec/ksubdomain
+
 ![](./imgs/github_auther.png)
 
 ## 0x08 反馈
