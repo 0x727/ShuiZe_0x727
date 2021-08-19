@@ -113,17 +113,20 @@ def get_GitSensitiveInfo(github_txt, raw_url_emails):
                     # print(githubAddr)
                     if githubAddr:
                         raw_url = content[int(githubAddr) - 1].replace('[------------------]', '').strip()
-                        emails = str(raw_url_emails[raw_url])
-                        print('github address: [line:{}] {}'.format(githubAddr, raw_url))
-                        print('[emails] : {}'.format(emails))
-                        print('[{}] [line:{}] {}'.format(keyword, line, content[line - 1].strip()))
-                        print('[{}] [line:{}] {}'.format(keyword, line + 1, content[line].strip()))
-                        print('[{}] [line:{}] {}'.format(keyword, line + 2, content[line + 1].strip()))
-                        gitSensitiveInfo.append(['gitAddress', githubAddr, raw_url, emails])
-                        gitSensitiveInfo.append([keyword, line, content[line - 1].strip(), emails])
-                        gitSensitiveInfo.append([keyword, line + 1, content[line].strip(), emails])
-                        gitSensitiveInfo.append([keyword, line + 2, content[line + 1].strip(), emails])
-                        gitSensitiveInfo.append(['-' * 50, '-' * 50, '-' * 50, '-' * 50])
+                        try:
+                            emails = str(raw_url_emails[raw_url])
+                            print('github address: [line:{}] {}'.format(githubAddr, raw_url))
+                            print('[emails] : {}'.format(emails))
+                            print('[{}] [line:{}] {}'.format(keyword, line, content[line - 1].strip()))
+                            print('[{}] [line:{}] {}'.format(keyword, line + 1, content[line].strip()))
+                            print('[{}] [line:{}] {}'.format(keyword, line + 2, content[line + 1].strip()))
+                            gitSensitiveInfo.append(['gitAddress', githubAddr, raw_url, emails])
+                            gitSensitiveInfo.append([keyword, line, content[line - 1].strip(), emails])
+                            gitSensitiveInfo.append([keyword, line + 1, content[line].strip(), emails])
+                            gitSensitiveInfo.append([keyword, line + 2, content[line + 1].strip(), emails])
+                            gitSensitiveInfo.append(['-' * 50, '-' * 50, '-' * 50, '-' * 50])
+                        except Exception as e:
+                            pass
 
     return gitSensitiveInfo
 
