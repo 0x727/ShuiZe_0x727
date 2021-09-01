@@ -132,10 +132,10 @@ def get_GitSensitiveInfo(github_txt, raw_url_emails):
 
 # 打印脚本跑出了几个新的子域名，并返回最新最全的子域名列表  传递两个列表，old是前面收集好的子域名，new是刚跑完的脚本收集的子域名，进行比较.
 def printGetNewSubdomains(old_subdomains, new_subdomains):
-    newSubdomains = list(set(new_subdomains) - set(old_subdomains))
-    print('[new :{}] {}'.format(len(newSubdomains), newSubdomains))
+    if len(old_subdomains) > 0:
+        newSubdomains = list(set(new_subdomains) - set(old_subdomains))
+        print('[new :{}] {}'.format(len(newSubdomains), newSubdomains))
     return list(set(new_subdomains + old_subdomains))
-
 
 
 # subdomains3脚本调用
@@ -151,6 +151,15 @@ def dnsZoneTransfer():
     pass
 
 
+# 从fofa收集代理
+def getSocksProxy():
+    cprint('-' * 50 + 'Load getSocksProxy ...' + '-' * 50, 'green')
+    from Plugins.infoGather.SocksProxy.getSocksProxy import run_getSocksProxy
+    socksProxysDict = run_getSocksProxy()
+
+    # 保存到excel
+    socksProxysSheet = saveToExcel(excelSavePath, excel, '代理')
+    socksProxysSheet.saveSocksProxys(socksProxysDict)
 
 # 备案反查顶级域名
 def beian2NewDomain():
@@ -886,6 +895,9 @@ def run_subdomain():
     # Subdomains_ips = subdomains3()  # 字典，key为子域名，value为子域名的A记录IP值
     # print('[total: {}] Subdomains3: {}'.format(len(Subdomains_ips), Subdomains_ips))
 
+    # 从fofa收集代理
+    getSocksProxy()
+
     # 0. beian2NewDomain
     beian2NewDomain()
 
@@ -1236,7 +1248,7 @@ def banner():
 def _init():
     global domain, cSubnet, save_fold_path, excel, excel_name, excelSavePath, proxy, \
         requests_proxies, isIntranet, xlsxFileWB, weak, CIP_List, allTargets_List, \
-        allTargets_Queue, masNmapFile, newDomains, ip_count, fofaTitle, ksubdomain, justInfoGather
+        allTargets_Queue, masNmapFile, newDomains, ip_count, fofaTitle, ksubdomain, justInfoGather, socksProxysDict
 
     # python3 %prog -n 1 -c 192.168.1.0,192.168.2.0 -p 1.1.1.1:1111                 内网：使用代理扫描内网C段资产：web标题和漏洞
     # proxychains4 python3 %prog -n 1 -f /result/2ddcaa3ebbd0/172.18.82.0.xlsx      内网：使用proxychains4代理扫描C段的服务漏洞：弱口令和未授权
@@ -1292,6 +1304,8 @@ def _init():
     # 和目标资产相关联的新的根域名
     newDomains = []
 
+    # 代理
+    socksProxysDict = {"baidu": [], "google": []}
 
     print(domain, cSubnet, isIntranet, proxy, File)
 

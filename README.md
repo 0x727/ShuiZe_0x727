@@ -298,6 +298,12 @@ ksubdomain项目地址：https://github.com/knownsec/ksubdomain
 
 ![](./imgs/github_auther.png)
 
+2021.9.1 增加了从fofa中爬去socks代理功能，后续可以手动配合proxychains进行漏洞探测，防止因为被封IP导致漏报。
+
+感谢团队的1amfine2333师傅提供的思路。
+
+![](./imgs/socksProxy.png)
+
 ## 0x08 反馈
 
 ShuiZe（水泽） 是一个免费且开源的项目，我们欢迎任何人为其开发和进步贡献力量。

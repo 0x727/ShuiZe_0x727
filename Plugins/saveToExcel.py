@@ -7,6 +7,28 @@ class saveToExcel:
         self.sheet = self.excel.create_sheet(title=title)   # 创建工作区
         self.Sheet_line = 1               # 表格的行
 
+    # 保存代理列表
+    def saveSocksProxys(self, socksProxysDict):
+        if self.Sheet_line == 1:
+            self.sheet.cell(self.Sheet_line, 1).value = '谷歌代理'
+            self.sheet.cell(self.Sheet_line, 2).value = '百度代理'
+            self.Sheet_line += 1
+
+        googleProxys = socksProxysDict["google"]
+        baiduProxys = socksProxysDict["baidu"]
+        if googleProxys != []:
+            for proxy in googleProxys:
+                self.sheet.cell(self.Sheet_line, 1).value = proxy
+                self.Sheet_line += 1
+
+        self.Sheet_line = 2
+        if baiduProxys != []:
+            for proxy in baiduProxys:
+                self.sheet.cell(self.Sheet_line, 2).value = proxy
+                self.Sheet_line += 1
+
+        self.excel.save(self.excelSavePath)
+
     # 保存备案反查顶级域名的结果
     def saveBeianNewDomains(self, beianNewDomains):
         if self.Sheet_line == 1:
