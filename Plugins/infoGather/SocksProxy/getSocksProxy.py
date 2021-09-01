@@ -6,6 +6,7 @@ from threading import Thread
 from queue import Queue
 import random
 import urllib3
+from termcolor import cprint
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 cf = configparser.ConfigParser()
@@ -60,6 +61,7 @@ def query_socks5():
             socks5_proxys.append(proxy)
     except Exception as e:
         print('[error] fofa 查询 {} : {}'.format(query_str, e.args))
+        cprint("请检查fofa的api是否正确", 'red')
 
     return socks5_proxys
 
