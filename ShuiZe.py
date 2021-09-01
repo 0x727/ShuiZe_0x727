@@ -1240,9 +1240,18 @@ def banner():
    \__/   /_\_\    /_/    /___|    /_/       author:ske
    
    最好在配置文件里填入fofa、shodan、github、censys的API，这样效果最佳。
+   请一定要配置fofa的api～～～最好是高级会员
    配置文件地址：iniFile/config.ini
 '''
     print(banner)
+
+# 判断是否是最新版本
+def checkVersion():
+    with open("versionFlag.txt", "rt") as f:
+        version = f.read()
+    print(version)
+
+
 
 # 初始配置
 def _init():
@@ -1256,6 +1265,7 @@ def _init():
     # python3 %prog -n 1 -c 192.168.1.0,192.168.2.0 -v 1                            内网：使用wifi或者vpn的情况下扫web标题和漏洞
 
     banner()
+    checkVersion()
 
     usage = '\n\t' \
             'python3 %prog -d domain.com\n\t' \
