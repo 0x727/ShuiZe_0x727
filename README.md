@@ -304,6 +304,9 @@ ksubdomain项目地址：https://github.com/knownsec/ksubdomain
 
 ![](./imgs/socksProxy.png)
 
+2021.9.2 增加了Confluence指纹识别，漏洞利用地址：https://github.com/h3v0x/CVE-2021-26084_Confluence
+
+
 ## 0x08 反馈
 
 ShuiZe（水泽） 是一个免费且开源的项目，我们欢迎任何人为其开发和进步贡献力量。

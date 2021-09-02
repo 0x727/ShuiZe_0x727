@@ -55,7 +55,8 @@ class Detect(threading.Thread):
                        '0c295d21ff53bdd0a95499db97acf0dd': 'Nexus',
                        'a91fbd46e52b1c1f8778906024bc9e15': 'NSFOCUS',
                        "20760ee267465f92c8a70ab7b9406106": '360新天擎',
-                       "9252bd07dbb6277f7ae898da87dada3a": '网康下一代防火墙'
+                       "9252bd07dbb6277f7ae898da87dada3a": '网康下一代防火墙',
+                       "966e60f8eb85b7ea43a7b0095f3e2336": 'Confluence'
                        }
 
         # 漏洞名-CMS目录下的漏洞插件
