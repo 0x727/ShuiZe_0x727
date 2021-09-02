@@ -1061,6 +1061,13 @@ def run_cSubnet(CIP_List, Subdomains_ips, notCDNSubdomains, param_Links):
     cprint(r'资产信息保存路径：{}'.format('{}/{}.xlsx'.format(save_fold_path, excel_name)), 'green')
     cprint(r'Github信息保存路径：{}/{}_github.txt'.format(save_fold_path, domain), 'green')
 
+    if domain:
+        ret = ""
+        for cip in CIP_List:
+            ret += cip
+            ret += ","
+        cprint(r"请使用-c功能跑C段资产", 'green')
+        cprint(r"python3 ShuiZe_0x727.py -c {}".format(ret[:-1]), 'red')
 
 # 跑fofa Title漏洞
 def run_fofaTitle():
