@@ -1283,9 +1283,9 @@ def checkVersion():
     try:
         res = requests.get(url=version_url, headers=headers, timeout=10, verify=False)
         new_version = res.text
-        print("最新版本: {}".format(new_version))
+        print("最新版本: {}\n".format(new_version))
         if now_version == new_version:
-            print("目前版本最新")
+            cprint("目前版本最新", 'red')
         else:
             add_version = new_version.replace(now_version, "")
             print()
