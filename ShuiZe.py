@@ -166,15 +166,32 @@ def getSocksProxy():
 def beian2NewDomain():
     cprint('-' * 50 + 'Load beian2NewDomain ...' + '-' * 50, 'green')
     from Plugins.infoGather.subdomain.beian2NewDomain.beian2domain import run_beian2domain
-    beianNewDomains = run_beian2domain(domain)
+    beianNewDomains, companyName = run_beian2domain(domain)
 
     for _ in beianNewDomains:
-        companyName, newDomain, time = _
-        newDomains.append(newDomain)
+        newDomains.append(_[1])
 
     # 保存到excel
     beianNewDomainsSheet = saveToExcel(excelSavePath, excel, '备案反查顶级域名')
     beianNewDomainsSheet.saveBeianNewDomains(beianNewDomains)
+    return companyName
+
+
+# 从爱企查获取目标相关信息
+def Aiqicha(companyName):
+    cprint('-' * 50 + 'Load Aiqicha ...' + '-' * 50, 'green')
+    if not companyName:
+        return
+
+    cprint("查询【{}】公司架构".format(companyName), 'red')
+
+    from Plugins.infoGather.subdomain.Aiqicha.Aiqicha import run_aiqicha
+    selfIcpinfo_infos, invest_infos, holds_infos, branch_infos = run_aiqicha(companyName)
+
+    # 保存到excel
+    aiqichaSheet = saveToExcel(excelSavePath, excel, '爱企查')
+    aiqichaSheet.saveAiqicha(selfIcpinfo_infos, invest_infos, holds_infos, branch_infos)
+
 
 
 # 判断是否是泛解析
@@ -900,7 +917,10 @@ def run_subdomain():
     getSocksProxy()
 
     # 0. beian2NewDomain
-    beian2NewDomain()
+    companyName = beian2NewDomain()
+
+    # 爱企查
+    Aiqicha(companyName)
 
     Subdomains_ips = {}
 
@@ -1267,7 +1287,9 @@ def checkVersion():
         if now_version == new_version:
             print("目前版本最新")
         else:
+            cprint("更新内容如下:\n{}".format(new_version), "red")
             cprint("目前版本非最新，建议及时更新...\n地址: https://github.com/0x727/ShuiZe_0x727/", 'red')
+
     except Exception as e:
         print('获取版本信息失败...')
 

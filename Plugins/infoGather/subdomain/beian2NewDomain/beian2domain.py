@@ -76,7 +76,7 @@ def chinazApi(domain):
             companyName = result['webName']
             newDomain = result['host']
             time = result['verifyTime']
-            chinazNewDomains.append((companyName, newDomain, time))     #
+            chinazNewDomains.append((companyName, newDomain, time))     # [('城市产业服务平台', 'cloudfoshan.com', '2020-06-09'), ('城市产业服务平台', 'cloudguangzhou.com', '2020-06-09')]
         chinazNewDomains = list(set(chinazNewDomains))
         return chinazNewDomains
 
@@ -92,7 +92,7 @@ def chinazApi(domain):
         res = requests.get(url=url, headers=headers, allow_redirects=False, verify=False, timeout=10)
     except Exception as e:
         print('[error] request : {}\n{}'.format(url, e.args))
-        return []
+        return [], []
     text = res.text
 
     companyName = re.search("var kw = '([\S]*)'", text)
@@ -102,7 +102,7 @@ def chinazApi(domain):
         companyNameUrlEncode = quote(str(companyName))
     else:
         print('没有匹配到公司名')
-        return []
+        return [], []
 
     # 备案反查域名
     headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -112,16 +112,16 @@ def chinazApi(domain):
         res = requests.post(url=url, headers=headers, data=data, allow_redirects=False, verify=False, timeout=10)
     except Exception as e:
         print('[error] request : {}\n{}'.format(url, e.args))
-        return []
+        return [], []
 
     json_ret = json.loads(res.text)
     # print(json_ret)
     if 'amount' not in json_ret.keys():
-        return chinazNewDomains
+        return chinazNewDomains, []
     amount = json_ret['amount']
     pages = math.ceil(amount / 20)
     print('页数: {}'.format(pages))
-    # 解析返回的json数据包，过滤出公司名，域名，时间
+    # 解析返回的json数据包，过滤出公司名，域名，时间     eg: ('城市产业服务平台', 'cloudhuizhou.com', '2020-06-09')
     tempList.extend(parse_json(json_ret))
     # for _ in chinazNewDomains:
     #     print(_)
@@ -146,16 +146,16 @@ def chinazApi(domain):
     print('chinazApi去重后共计{}个顶级域名'.format(len(chinazNewDomains)))
     # for _ in chinazNewDomains:
     #     print(_)
-    return chinazNewDomains
+    return chinazNewDomains, companyName
 
 
 def run_beian2domain(domain):
     beianNewDomains = []
-    beianbeianNewDomains = beianbeianApi(domain)
-    chinazNewDomains = chinazApi(domain)
+    # beianbeianNewDomains = beianbeianApi(domain)  # 失效
+    chinazNewDomains, companyName = chinazApi(domain)
 
     tempDict = {}
-    for each in beianbeianNewDomains + chinazNewDomains:
+    for each in chinazNewDomains:
         if each[1] not in tempDict:
             tempDict[each[1]] = each
             beianNewDomains.append(each)
@@ -166,8 +166,8 @@ def run_beian2domain(domain):
         print(_)
 
     cprint('去重后共计{}个顶级域名'.format(len(beianNewDomains)), 'red')
-    return beianNewDomains
+    return beianNewDomains, companyName
 
 if __name__ == '__main__':
-    domain = 'ucloud.cn'
+    domain = 'aaaaa'
     run_beian2domain(domain)

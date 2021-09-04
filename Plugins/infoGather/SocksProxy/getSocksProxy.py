@@ -72,11 +72,11 @@ def run_getSocksProxy():
     socks5_proxys_queue = Queue(-1)
     if socks5_proxys:
         # 随机取1000个代理ip
-        for eachSocks5 in random.sample(socks5_proxys, 1000):
+        for eachSocks5 in random.sample(socks5_proxys, 200):
             socks5_proxys_queue.put(eachSocks5)
 
         threads = []
-        for num in range(300):
+        for num in range(100):
             t = Thread(target=curlWeb, args=(socks5_proxys_queue, socksProxysDict))
             threads.append(t)
             t.start()

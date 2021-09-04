@@ -46,6 +46,171 @@ class saveToExcel:
         self.excel.save(self.excelSavePath)
 
 
+    # 保存爱企查的结果
+    def saveAiqicha(self, selfIcpinfo_infos, invest_infos, holds_infos, branch_infos):
+        if self.Sheet_line == 1:
+            self.sheet.cell(self.Sheet_line, 1).value = '备案信息'
+            self.sheet.cell(self.Sheet_line, 2).value = '网站名称'
+            self.sheet.cell(self.Sheet_line, 3).value = '域名'
+            self.sheet.cell(self.Sheet_line, 4).value = '备案号'
+            self.Sheet_line += 1
+
+        for _ in selfIcpinfo_infos:
+            siteName, domain, icpNo = _["siteName"], _["domain"], _["icpNo"]
+            self.sheet.cell(self.Sheet_line, 1).value = '备案信息'
+            self.sheet.cell(self.Sheet_line, 2).value = siteName
+            self.sheet.cell(self.Sheet_line, 3).value = str(domain)
+            self.sheet.cell(self.Sheet_line, 4).value = icpNo
+            self.Sheet_line += 1
+
+
+
+
+
+
+        self.Sheet_line += 1
+        self.sheet.cell(self.Sheet_line, 1).value = '对外投资'
+        self.sheet.cell(self.Sheet_line, 2).value = '公司名'
+        self.sheet.cell(self.Sheet_line, 3).value = '投资占比'
+        self.sheet.cell(self.Sheet_line, 4).value = 'pid'
+        self.sheet.cell(self.Sheet_line, 5).value = '网站名称'
+        self.sheet.cell(self.Sheet_line, 6).value = '域名'
+        self.sheet.cell(self.Sheet_line, 7).value = '备案号'
+        self.sheet.cell(self.Sheet_line, 8).value = '邮箱地址'
+        self.sheet.cell(self.Sheet_line, 9).value = '联系方式'
+        self.Sheet_line += 1
+
+        for _ in invest_infos:
+            pid, invest_info, icp_info, companyDetail_infos = _["pid"], _["invest_info"], _["icp_info"], _["companyDetail_infos"]
+            entName, regRate = invest_info["entName"], invest_info["regRate"]
+            emails, telephone = companyDetail_infos["emails"], companyDetail_infos["telephone"]
+
+            if icp_info:
+                for each_icp in icp_info:
+                    # print(each_icp)
+                    siteName, domain, icpNo = each_icp["siteName"], each_icp["domain"], each_icp["icpNo"]
+                    self.sheet.cell(self.Sheet_line, 1).value = '对外投资'
+                    self.sheet.cell(self.Sheet_line, 2).value = entName
+                    self.sheet.cell(self.Sheet_line, 3).value = regRate
+                    self.sheet.cell(self.Sheet_line, 4).value = pid
+                    self.sheet.cell(self.Sheet_line, 5).value = siteName
+                    self.sheet.cell(self.Sheet_line, 6).value = str(domain)
+                    self.sheet.cell(self.Sheet_line, 7).value = icpNo
+                    self.sheet.cell(self.Sheet_line, 8).value = str(emails)
+                    self.sheet.cell(self.Sheet_line, 9).value = str(telephone)
+                    self.Sheet_line += 1
+            else:
+                self.sheet.cell(self.Sheet_line, 1).value = '对外投资'
+                self.sheet.cell(self.Sheet_line, 2).value = entName
+                self.sheet.cell(self.Sheet_line, 3).value = regRate
+                self.sheet.cell(self.Sheet_line, 4).value = pid
+                self.sheet.cell(self.Sheet_line, 5).value = ""
+                self.sheet.cell(self.Sheet_line, 6).value = ""
+                self.sheet.cell(self.Sheet_line, 7).value = ""
+                self.sheet.cell(self.Sheet_line, 8).value = str(emails)
+                self.sheet.cell(self.Sheet_line, 9).value = str(telephone)
+                self.Sheet_line += 1
+
+
+
+
+
+
+
+        self.Sheet_line += 1
+        self.sheet.cell(self.Sheet_line, 1).value = '控股企业'
+        self.sheet.cell(self.Sheet_line, 2).value = '公司名'
+        self.sheet.cell(self.Sheet_line, 3).value = '投资占比'
+        self.sheet.cell(self.Sheet_line, 4).value = 'pid'
+        self.sheet.cell(self.Sheet_line, 5).value = '网站名称'
+        self.sheet.cell(self.Sheet_line, 6).value = '域名'
+        self.sheet.cell(self.Sheet_line, 7).value = '备案号'
+        self.sheet.cell(self.Sheet_line, 8).value = '邮箱地址'
+        self.sheet.cell(self.Sheet_line, 9).value = '联系方式'
+        self.Sheet_line += 1
+
+
+        for _ in holds_infos:
+            pid, holds_info, icp_info, companyDetail_infos = _["pid"], _["holds_info"], _["icp_info"], _["companyDetail_infos"]
+            entName, proportion = holds_info["entName"], holds_info["proportion"]
+            emails, telephone = companyDetail_infos["emails"], companyDetail_infos["telephone"]
+
+            if icp_info:
+                for each_icp in icp_info:
+                    siteName, domain, icpNo = each_icp["siteName"], each_icp["domain"], each_icp["icpNo"]
+                    self.sheet.cell(self.Sheet_line, 1).value = '控股企业'
+                    self.sheet.cell(self.Sheet_line, 2).value = entName
+                    self.sheet.cell(self.Sheet_line, 3).value = proportion
+                    self.sheet.cell(self.Sheet_line, 4).value = pid
+                    self.sheet.cell(self.Sheet_line, 5).value = siteName
+                    self.sheet.cell(self.Sheet_line, 6).value = str(domain)
+                    self.sheet.cell(self.Sheet_line, 7).value = icpNo
+                    self.sheet.cell(self.Sheet_line, 8).value = str(emails)
+                    self.sheet.cell(self.Sheet_line, 9).value = str(telephone)
+                    self.Sheet_line += 1
+            else:
+                self.sheet.cell(self.Sheet_line, 1).value = '控股企业'
+                self.sheet.cell(self.Sheet_line, 2).value = entName
+                self.sheet.cell(self.Sheet_line, 3).value = proportion
+                self.sheet.cell(self.Sheet_line, 4).value = pid
+                self.sheet.cell(self.Sheet_line, 5).value = ""
+                self.sheet.cell(self.Sheet_line, 6).value = ""
+                self.sheet.cell(self.Sheet_line, 7).value = ""
+                self.sheet.cell(self.Sheet_line, 8).value = str(emails)
+                self.sheet.cell(self.Sheet_line, 9).value = str(telephone)
+                self.Sheet_line += 1
+
+
+
+
+
+
+
+        self.Sheet_line += 1
+        self.sheet.cell(self.Sheet_line, 1).value = '分支机构'
+        self.sheet.cell(self.Sheet_line, 2).value = '公司名'
+        self.sheet.cell(self.Sheet_line, 3).value = 'pid'
+        self.sheet.cell(self.Sheet_line, 4).value = '网站名称'
+        self.sheet.cell(self.Sheet_line, 5).value = '域名'
+        self.sheet.cell(self.Sheet_line, 6).value = '备案号'
+        self.sheet.cell(self.Sheet_line, 7).value = '邮箱地址'
+        self.sheet.cell(self.Sheet_line, 8).value = '联系方式'
+        self.Sheet_line += 1
+
+        for _ in branch_infos:
+            pid, branch_info, icp_info, companyDetail_infos = _["pid"], _["branch_info"], _["icp_info"], _["companyDetail_infos"]
+            entName = branch_info["entName"]
+            emails, telephone = companyDetail_infos["emails"], companyDetail_infos["telephone"]
+
+            if icp_info:
+                for each_icp in icp_info:
+                    siteName, domain, icpNo = each_icp["siteName"], each_icp["domain"], each_icp["icpNo"]
+                    self.sheet.cell(self.Sheet_line, 1).value = '控股企业'
+                    self.sheet.cell(self.Sheet_line, 2).value = entName
+                    self.sheet.cell(self.Sheet_line, 3).value = pid
+                    self.sheet.cell(self.Sheet_line, 4).value = siteName
+                    self.sheet.cell(self.Sheet_line, 5).value = str(domain)
+                    self.sheet.cell(self.Sheet_line, 6).value = icpNo
+                    self.sheet.cell(self.Sheet_line, 7).value = str(emails)
+                    self.sheet.cell(self.Sheet_line, 8).value = str(telephone)
+                    self.Sheet_line += 1
+            else:
+                self.sheet.cell(self.Sheet_line, 1).value = '控股企业'
+                self.sheet.cell(self.Sheet_line, 2).value = entName
+                self.sheet.cell(self.Sheet_line, 3).value = pid
+                self.sheet.cell(self.Sheet_line, 4).value = ""
+                self.sheet.cell(self.Sheet_line, 5).value = ""
+                self.sheet.cell(self.Sheet_line, 6).value = ""
+                self.sheet.cell(self.Sheet_line, 7).value = str(emails)
+                self.sheet.cell(self.Sheet_line, 8).value = str(telephone)
+                self.Sheet_line += 1
+
+
+
+
+        self.excel.save(self.excelSavePath)
+
+
     # 保存theHarvester的IP结果
     def saveTheHarvesterIp(self, theHarvesterIp):
         self.sheet.cell(self.Sheet_line, 1).value = 'IP'
