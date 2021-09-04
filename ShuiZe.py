@@ -1277,17 +1277,19 @@ def banner():
 def checkVersion():
     with open("versionFlag.txt", "rt") as f:
         now_version = f.read()
-    cprint("目前版本: {}".format(now_version), 'red')
+    print("目前版本: {}".format(now_version))
     version_url = "https://raw.githubusercontent.com/0x727/ShuiZe_0x727/master/versionFlag.txt"
     headers = {'user-agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
     try:
         res = requests.get(url=version_url, headers=headers, timeout=10, verify=False)
         new_version = res.text
-        cprint("最新版本: {}".format(new_version), 'red')
+        print("最新版本: {}".format(new_version))
         if now_version == new_version:
             print("目前版本最新")
         else:
-            cprint("更新内容如下:\n{}".format(new_version), "red")
+            add_version = new_version.replace(now_version, "")
+            print()
+            cprint("更新内容如下:{}\n".format(add_version), "red")
             cprint("目前版本非最新，建议及时更新...\n地址: https://github.com/0x727/ShuiZe_0x727/", 'red')
 
     except Exception as e:
