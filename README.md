@@ -306,7 +306,9 @@ ksubdomain项目地址：https://github.com/knownsec/ksubdomain
 
 2021.9.2 增加了Confluence指纹识别，漏洞利用地址：https://github.com/h3v0x/CVE-2021-26084_Confluence
 
-2021.9.4 增加了爱企查，对目标的整个架构分析，涵盖【对外投资、控股公司、分支机构、联系方式、邮箱】等信息。感谢pykiller师傅提交的建议
+2021.9.4 增加了爱企查，对目标的整个架构分析，涵盖【对外投资、控股公司、分支机构、联系方式、邮箱】等信息。
+
+感谢pykiller师傅提交的建议，同时参考了吐司师傅gubeiya的脚本
 
 issues地址：https://github.com/0x727/ShuiZe_0x727/issues/25
 
