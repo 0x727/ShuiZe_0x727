@@ -1277,7 +1277,7 @@ def banner():
 def checkVersion():
     with open("versionFlag.txt", "rt") as f:
         now_version = f.read()
-    print("目前版本: {}".format(now_version))
+    print("目前版本: {}\n".format(now_version))
     version_url = "https://raw.githubusercontent.com/0x727/ShuiZe_0x727/master/versionFlag.txt"
     headers = {'user-agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
     try:
