@@ -159,8 +159,8 @@ def getSocksProxy():
     socksProxysDict = run_getSocksProxy()
 
     # 保存到excel
-    socksProxysSheet = saveToExcel(excelSavePath, excel, '代理')
-    socksProxysSheet.saveSocksProxys(socksProxysDict)
+    # socksProxysSheet = saveToExcel(excelSavePath, excel, '代理')
+    # socksProxysSheet.saveSocksProxys(socksProxysDict)
 
 # 备案反查顶级域名
 def beian2NewDomain():
@@ -945,9 +945,6 @@ def run_subdomain():
     # Subdomains_ips = subdomains3()  # 字典，key为子域名，value为子域名的A记录IP值
     # print('[total: {}] Subdomains3: {}'.format(len(Subdomains_ips), Subdomains_ips))
 
-    # 从fofa收集代理
-    getSocksProxy()
-
     # 0. beian2NewDomain
     companyName = beian2NewDomain()
 
@@ -1370,9 +1367,10 @@ def _init():
     parse.add_option('--ksubdomain', dest='ksubdomain', type='int', default=1, help='not run ksubdomain')  # 不使用ksubdomain跑子域名
     parse.add_option('--test', dest='testDemo', type='int', default=0, help='if test=1 then run testDemo')  # 测试某个功能
     parse.add_option('--justInfoGather', dest='justInfoGather', type='int', default=0, help='just infoGather, not detect vul')  # 只信息收集，不跑漏洞
+    parse.add_option('--getSocks', dest='getSocks', type='int', default=0, help='get socks')  # 获取socks代理
 
     options, args = parse.parse_args()
-    domain, cSubnet, isIntranet, proxy, File, weak, vpn, masNmapFile, fofaTitle, domainFile, web, ksubdomain, justInfoGather, testDemo = options.domain, options.cSubnet, options.isIntranet, options.proxy, options.File, options.weak, options.vpn, options.masNmapFile, options.fofaTitle, options.domainFile, options.web, options.ksubdomain, options.justInfoGather, options.testDemo
+    domain, cSubnet, isIntranet, proxy, File, weak, vpn, masNmapFile, fofaTitle, domainFile, web, ksubdomain, justInfoGather, testDemo, getSocks = options.domain, options.cSubnet, options.isIntranet, options.proxy, options.File, options.weak, options.vpn, options.masNmapFile, options.fofaTitle, options.domainFile, options.web, options.ksubdomain, options.justInfoGather, options.testDemo, options.getSocks
 
     # 所有目标
     allTargets_List = []
@@ -1530,6 +1528,9 @@ def _init():
         param_Links = []
         run_cSubnet(CIP_List, Subdomains_ips, notCDNSubdomains, param_Links)
 
+    elif getSocks == 1:
+        # 从fofa收集代理
+        getSocksProxy()
 
 if __name__ == '__main__':
     _init()

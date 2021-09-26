@@ -135,6 +135,10 @@ def query(query_str):
 
     total = meta['pagination']["total"]
     count = meta['pagination']['count']
+
+    if total == 0:
+        return [], [], []
+
     print('[quake] 总共数据量:{}'.format(total))
     total = MaxTotal if total > MaxTotal else total
     pages = total / count
