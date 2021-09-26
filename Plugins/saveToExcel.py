@@ -373,14 +373,18 @@ class saveToExcel:
             self.sheet.cell(self.Sheet_line, 9).value = '地址'
             self.sheet.cell(self.Sheet_line, 10).value = '查询语句'
             self.sheet.cell(self.Sheet_line, 11).value = 'robots'
+            self.sheet.cell(self.Sheet_line, 12).value = '证书'
             self.Sheet_line += 1
 
         for result in webSpaceResult:
             if webSpaceName == 'fofa':
                 host, title, ip, subdomain, port, server, protocol, address = result
-            else:
+            elif webSpaceName == 'shodan':
                 host, title, ip, subdomain, port, server, protocol, address, robots = result
                 self.sheet.cell(self.Sheet_line, 11, robots)
+            else:
+                host, title, ip, subdomain, port, server, protocol, address, cert = result
+                self.sheet.cell(self.Sheet_line, 12, str(cert))
 
             title = ILLEGAL_CHARACTERS_RE.sub(r'', title)
             self.sheet.cell(self.Sheet_line, 1).value = webSpaceName

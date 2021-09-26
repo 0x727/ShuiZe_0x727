@@ -315,6 +315,19 @@ issues地址：https://github.com/0x727/ShuiZe_0x727/issues/25
 ![](./imgs/aiqicha.png)
 
 
+2021.9.26 增加了夸克的api接口,-d -c --fofaTitle中都会调用
+
+限定了每次最大查询数量300条，不然一个月5w条数据也用不了多少次
+
+在Plugins/infoGather/WebspaceSearchEngine/quakeApi.py的MaxTotal变量里修改
+
+issues地址：https://github.com/0x727/ShuiZe_0x727/issues/33
+
+![](./imgs/quakeApi.png)
+
+![](./imgs/quakeApi2.png)
+
+
 ## 0x08 反馈
 
 ShuiZe（水泽） 是一个免费且开源的项目，我们欢迎任何人为其开发和进步贡献力量。

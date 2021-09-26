@@ -436,7 +436,7 @@ def get_CIP(Subdomains_ips, CDNSubdomainsDict, censysIPS):
 # 调用网络空间引擎,查询根域名和C段IP的资产
 def run_webSpace(domain, SubdomainAndNotCDNIPs, CIP_List, fofaTitle):
     cprint('-' * 50 + 'run_webSpace ...' + '-' * 50, 'green')  # 启动网络空间引擎
-    from Plugins.infoGather.WebspaceSearchEngine import fofaApi, shodanApi
+    from Plugins.infoGather.WebspaceSearchEngine import fofaApi, shodanApi, quakeApi
     webSpaceSheet = saveToExcel(excelSavePath, excel, '网络空间搜索引擎')
     serviceSheet = saveToExcel(excelSavePath, excel, '服务')
 
@@ -497,6 +497,35 @@ def run_webSpace(domain, SubdomainAndNotCDNIPs, CIP_List, fofaTitle):
                     webSpace_web_host_port.extend(shodan_web_host_port)
                     webSpace_service_host_port.extend(shodan_service_host_port)
 
+    # quake搜索引擎信息收集
+    def run_quake():
+        # 查询域名
+        if domain:
+            query_str = 'domain:"{}" AND country:"China"'.format(domain)
+            quake_Results, quake_web_host_port, quake_service_host_port = quakeApi.query_domain(query_str)
+            if quake_Results:
+                webSpaceSheet.saveWebSpace('quake', quake_Results, query_str)
+                webSpace_web_host_port.extend(quake_web_host_port)
+                webSpace_service_host_port.extend(quake_service_host_port)
+
+        # 查询C段IP
+        if CIP_List:
+            for c_subnet in CIP_List:
+                query_str = 'ip:"{}/24"'.format(c_subnet)
+                quake_Results, quake_web_host_port, quake_service_host_port = quakeApi.query_ip(query_str)
+                if quake_Results:
+                    webSpaceSheet.saveWebSpace('quake', quake_Results, query_str)
+                    webSpace_web_host_port.extend(quake_web_host_port)
+                    webSpace_service_host_port.extend(quake_service_host_port)
+
+        if fofaTitle:
+            query_str = 'title:"{}" AND country:"China"'.format(fofaTitle)
+            quake_Results, quake_web_host_port, quake_service_host_port = quakeApi.query_ip(query_str)
+            if quake_Results:
+                webSpaceSheet.saveWebSpace('quake', quake_Results, query_str)
+                webSpace_web_host_port.extend(quake_web_host_port)
+                webSpace_service_host_port.extend(quake_service_host_port)
+
     # 对子域名和非CDN的IP进行fofa查询
     def run_fofaOne(subdomainAndIP_Q):
         while not subdomainAndIP_Q.empty():
@@ -514,6 +543,9 @@ def run_webSpace(domain, SubdomainAndNotCDNIPs, CIP_List, fofaTitle):
 
     run_fofa()
     run_shodan()
+    run_quake()
+
+
     # fofa跑所有子域名解析出来的IP
     if SubdomainAndNotCDNIPs:
         subdomainAndIP_Q = Queue(-1)
@@ -1087,7 +1119,7 @@ def run_cSubnet(CIP_List, Subdomains_ips, notCDNSubdomains, param_Links):
             ret += cip
             ret += ","
         cprint(r"请使用-c功能跑C段资产", 'green')
-        cprint(r"python3 ShuiZe_0x727.py -c {}".format(ret[:-1]), 'red')
+        cprint(r"python3 ShuiZe.py -c {}".format(ret[:-1]), 'red')
 
 # 跑fofa Title漏洞
 def run_fofaTitle():
