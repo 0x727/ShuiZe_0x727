@@ -386,7 +386,10 @@ class saveToExcel:
                 host, title, ip, subdomain, port, server, protocol, address, cert = result
                 self.sheet.cell(self.Sheet_line, 12, str(cert))
 
-            title = ILLEGAL_CHARACTERS_RE.sub(r'', title)
+            try:
+                title = ILLEGAL_CHARACTERS_RE.sub(r'', title)
+            except Exception as e:
+                title = ''
             self.sheet.cell(self.Sheet_line, 1).value = webSpaceName
             self.sheet.cell(self.Sheet_line, 2).value = host
             self.sheet.cell(self.Sheet_line, 3).value = title
