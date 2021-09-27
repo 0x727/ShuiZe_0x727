@@ -17,7 +17,8 @@ secs = cf.sections()
 X_QuakeToken = cf.get('quake api', 'X-QuakeToken')
 
 # 查询的最大数据量
-MaxTotal = 300
+MaxTotal = cf.get('quake nums', 'quake_nums')
+# MaxTotal = 300
 size = 50
 TIMEMOUT = 20
 
