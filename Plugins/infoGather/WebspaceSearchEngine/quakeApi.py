@@ -18,7 +18,6 @@ X_QuakeToken = cf.get('quake api', 'X-QuakeToken')
 
 # 查询的最大数据量
 MaxTotal = int(cf.get('quake nums', 'quake_nums'))
-# MaxTotal = 300
 size = 50
 TIMEMOUT = 20
 
@@ -34,12 +33,15 @@ def query_ip(query_str):
 
 
 def filter_data(data):
-    quake_Results = []
-    quake_web_host_port = []       # 存放开放web服务器的ip/domain和port，用来后面的cms识别
-    quake_service_host_port = []   # 存放非Web服务器的ip/domain和port，用来后面的未授权漏洞检测
+    quake_Results_tmp = []
+    quake_web_host_port_tmp = []       # 存放开放web服务器的ip/domain和port，用来后面的cms识别
+    quake_service_host_port_tmp = []   # 存放非Web服务器的ip/domain和port，用来后面的未授权漏洞检测
     for each_data in data:
         '''host	标题	ip	子域名	端口	服务	协议	地址	查询语句	robots'''
         ip, port, host, name, title, path, product, province_cn, favicon, x_powered_by, cert = '', '', '', '', '', '', '', '', '', '', ''
+        # print(each_data)
+        # aaaa = json.dumps(each_data)
+        # print(aaaa)
 
         ip = each_data['ip']  # ip
         port = each_data['port']  # port
@@ -64,7 +66,7 @@ def filter_data(data):
 
         host, title, ip, subdomain, port, server, protocol, address, cert = host, title, ip, host, port, product, name, province_cn, cert
         quake_Result = [host, title, ip, subdomain, port, server, protocol, address, cert]
-        quake_Results.append(quake_Result)
+        quake_Results_tmp.append(quake_Result)
 
         # print('host: {}'.format(host))
         # print('title: {}'.format(title))
@@ -80,18 +82,22 @@ def filter_data(data):
         # 返回开放http服务的ip和端口
         if 'http' in protocol and host:
             host_port = '{}:{}'.format(host, port)
-            quake_web_host_port.append(host_port)
+            # print(host_port)
+            quake_web_host_port_tmp.append(host_port)
         else:
             host_port = [protocol, ip, port]
-            quake_service_host_port.append(host_port)
+            # print(host_port)
+            quake_service_host_port_tmp.append(host_port)
 
-    return quake_Results, quake_web_host_port, quake_service_host_port
+    return quake_Results_tmp, quake_web_host_port_tmp, quake_service_host_port_tmp
 
 
 
 
 def query(query_str):
     quake_Results = []
+    quake_web_host_port = []
+    quake_service_host_port = []
     headers = {
         "X-QuakeToken": X_QuakeToken
     }
@@ -148,8 +154,10 @@ def query(query_str):
     print('[quake] 查询的页数:{}'.format(pages))
 
     print("[quake] page{}".format(1))
-    quake_Results_tmp, quake_web_host_port, quake_service_host_port = filter_data(data)
+    quake_Results_tmp, quake_web_host_port_tmp, quake_service_host_port_tmp = filter_data(data)
     quake_Results.extend(quake_Results_tmp)
+    quake_web_host_port.extend(quake_web_host_port_tmp)
+    quake_service_host_port.extend(quake_service_host_port_tmp)
 
     if pages != 1:
         for page in range(2, pages+1):
@@ -166,13 +174,14 @@ def query(query_str):
                 ret = response.json()
                 data = ret['data']
                 meta = ret['meta']
-                quake_Results_tmp, quake_web_host_port, quake_service_host_port = filter_data(data)
+                quake_Results_tmp, quake_web_host_port_tmp, quake_service_host_port_tmp = filter_data(data)
                 quake_Results.extend(quake_Results_tmp)
+                quake_web_host_port.extend(quake_web_host_port_tmp)
+                quake_service_host_port.extend(quake_service_host_port_tmp)
             except Exception as e:
                 pass
 
     return quake_Results, quake_web_host_port, quake_service_host_port
-
 
 
 
