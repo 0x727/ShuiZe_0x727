@@ -317,9 +317,9 @@ issues地址：https://github.com/0x727/ShuiZe_0x727/issues/25
 
 2021.9.26 增加了夸克的api接口,-d -c --fofaTitle中都会调用
 
-限定了每次最大查询数量300条，不然一个月5w条数据也用不了多少次
+限定了每次最大查询数量1000条，不然一个月5w条数据也用不了多少次
 
-在Plugins/infoGather/WebspaceSearchEngine/quakeApi.py的MaxTotal变量里修改
+在config.ini配置文件的quake_nums值
 
 issues地址：https://github.com/0x727/ShuiZe_0x727/issues/33
 
