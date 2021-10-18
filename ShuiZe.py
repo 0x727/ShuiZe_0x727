@@ -1304,7 +1304,7 @@ def banner():
 
 # 判断是否是最新版本
 def checkVersion():
-    with open("versionFlag.txt", "rt") as f:
+    with open("versionFlag.txt", "rt", encoding="utf-8") as f:
         now_version = f.read().strip()
     print("目前版本: \n{}".format(now_version))
     version_url = "https://raw.githubusercontent.com/0x727/ShuiZe_0x727/master/versionFlag.txt"
