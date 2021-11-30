@@ -374,6 +374,9 @@ class saveToExcel:
             self.sheet.cell(self.Sheet_line, 10).value = '查询语句'
             self.sheet.cell(self.Sheet_line, 11).value = 'robots'
             self.sheet.cell(self.Sheet_line, 12).value = '证书'
+            self.sheet.cell(self.Sheet_line, 13).value = '公司名'
+            self.sheet.cell(self.Sheet_line, 14).value = 'isp'
+            self.sheet.cell(self.Sheet_line, 15).value = '收录时间'
             self.Sheet_line += 1
 
         for result in webSpaceResult:
@@ -382,9 +385,14 @@ class saveToExcel:
             elif webSpaceName == 'shodan':
                 host, title, ip, subdomain, port, server, protocol, address, robots = result
                 self.sheet.cell(self.Sheet_line, 11, robots)
-            else:
+            elif webSpaceName == 'quake':
                 host, title, ip, subdomain, port, server, protocol, address, cert = result
                 self.sheet.cell(self.Sheet_line, 12, str(cert))
+            else:
+                host, title, ip, subdomain, port, server, protocol, address, company, isp, updated_at = result
+                self.sheet.cell(self.Sheet_line, 13, company)
+                self.sheet.cell(self.Sheet_line, 14, isp)
+                self.sheet.cell(self.Sheet_line, 15, updated_at)
 
             try:
                 title = ILLEGAL_CHARACTERS_RE.sub(r'', title)

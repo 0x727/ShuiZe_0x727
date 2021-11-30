@@ -328,6 +328,19 @@ issues地址：https://github.com/0x727/ShuiZe_0x727/issues/33
 ![](./imgs/quakeApi2.png)
 
 
+2021.11.30 增加了奇安信hunter的api接口,-d -c --fofaTitle中都会调用
+
+限定了每次最大查询数量200条，不然一天的几千条数据也用不了多少次
+
+在config.ini配置文件的qianxin_nums值
+
+issues地址：https://github.com/0x727/ShuiZe_0x727/issues/48
+
+![](./imgs/qianxinApi2.png)
+
+![](./imgs/qianxinApi.png)
+
+
 ## 0x08 反馈
 
 ShuiZe（水泽） 是一个免费且开源的项目，我们欢迎任何人为其开发和进步贡献力量。

@@ -436,7 +436,7 @@ def get_CIP(Subdomains_ips, CDNSubdomainsDict, censysIPS):
 # 调用网络空间引擎,查询根域名和C段IP的资产
 def run_webSpace(domain, SubdomainAndNotCDNIPs, CIP_List, fofaTitle):
     cprint('-' * 50 + 'run_webSpace ...' + '-' * 50, 'green')  # 启动网络空间引擎
-    from Plugins.infoGather.WebspaceSearchEngine import fofaApi, shodanApi, quakeApi
+    from Plugins.infoGather.WebspaceSearchEngine import fofaApi, shodanApi, quakeApi, qianxinApi
     webSpaceSheet = saveToExcel(excelSavePath, excel, '网络空间搜索引擎')
     serviceSheet = saveToExcel(excelSavePath, excel, '服务')
 
@@ -526,6 +526,36 @@ def run_webSpace(domain, SubdomainAndNotCDNIPs, CIP_List, fofaTitle):
                 webSpace_web_host_port.extend(quake_web_host_port)
                 webSpace_service_host_port.extend(quake_service_host_port)
 
+    # qianxin搜索引擎信息收集
+    def run_qianxin():
+        # 查询域名
+        if domain:
+            query_str = '(domain="{}")&&(country=="中国")'.format(domain)
+            qianxin_Results, qianxin_web_host_port, qianxin_service_host_port = qianxinApi.query_domain(query_str)
+            if qianxin_Results:
+                webSpaceSheet.saveWebSpace('qianxin', qianxin_Results, query_str)
+                webSpace_web_host_port.extend(qianxin_web_host_port)
+                webSpace_service_host_port.extend(qianxin_service_host_port)
+
+        # 查询C段IP
+        if CIP_List:
+            for c_subnet in CIP_List:
+                query_str = 'ip="{}/24"'.format(c_subnet)
+                qianxin_Results, qianxin_web_host_port, qianxin_service_host_port = qianxinApi.query_ip(query_str)
+                if qianxin_Results:
+                    webSpaceSheet.saveWebSpace('qianxin', qianxin_Results, query_str)
+                    webSpace_web_host_port.extend(qianxin_web_host_port)
+                    webSpace_service_host_port.extend(qianxin_service_host_port)
+
+        if fofaTitle:
+            query_str = '(title="{}")&&(country=="中国")'.format(fofaTitle)
+            qianxin_Results, qianxin_web_host_port, qianxin_service_host_port = qianxinApi.query_ip(query_str)
+            if qianxin_Results:
+                webSpaceSheet.saveWebSpace('qianxin', qianxin_Results, query_str)
+                webSpace_web_host_port.extend(qianxin_web_host_port)
+                webSpace_service_host_port.extend(qianxin_service_host_port)
+
+
     # 对子域名和非CDN的IP进行fofa查询
     def run_fofaOne(subdomainAndIP_Q):
         while not subdomainAndIP_Q.empty():
@@ -544,6 +574,7 @@ def run_webSpace(domain, SubdomainAndNotCDNIPs, CIP_List, fofaTitle):
     run_fofa()
     run_shodan()
     run_quake()
+    run_qianxin()
 
 
     # fofa跑所有子域名解析出来的IP
