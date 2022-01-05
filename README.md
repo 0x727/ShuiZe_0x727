@@ -188,7 +188,7 @@ POC的模板文件例子：`Plugins/Vul/Web/__template__.py`
 | :------------------------------------------------------- | :-------------------------------------------- |
 | python3 ShuiZe.py -d domain.com                          | 收集单一的根域名资产                          |
 | python3 ShuiZe.py --domainFile domain.txt                | 批量跑根域名列表                              |
-| python3 ShuiZe.py -c 192.168.1.0,192.168.2.0,192.168.3.0 | 收集C段资产                                   |
+| python3 ShuiZe.py -c 192.168.1.0,192.168.2.0,192.168.3.0 | 收集CIDR资产(支持 a.b.c.d/e 以及 a.b.c.d-d.e.f.g 形式的ip段，如果全部为纯ip的话，将自动展开为c段)                                   |
 | python3 ShuiZe.py -f url.txt                             | 对url里的网站漏洞检测                         |
 | python3 ShuiZe.py --fofaTitle XXX大学                    | 从fofa里收集标题为XXX大学的资产，然后漏洞检测 |
 | python3 ShuiZe.py -d domain.com --justInfoGather 1       | 仅信息收集，不检测漏洞                        |
