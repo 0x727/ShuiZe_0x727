@@ -1361,7 +1361,9 @@ def get_subnet(subnet: str):
         cip_list = subnet.split(',')
         # 如果 c 段字符串不包含 /和-，则默认跑 c 段，否则根据用户所填写的实际段来跑
         if '/' not in subnet and '-' not in subnet:
-            cips = ['{}/24'.format(cip) for cip in cip_list]
+            for cip in cip_list:
+                cip = str(IP(IP(cip).int() >> 8 << 8))
+                cips.append('{}/24'.format(cip))
         else:
             for cip in cip_list:
                 # 127.0.0.0-127.255.255.255
@@ -1374,8 +1376,7 @@ def get_subnet(subnet: str):
                     ip_, mask_ = cip.split('/')
                     mask_ = int(mask_ or 32)
                     ip_ = str(IP(IP(ip_).int() >> (32 - mask_) << (32 - mask_)))
-                    cip = '{}/{}'.format(ip_, mask_)
-                    cips.append(cip)
+                    cips.append('{}/{}'.format(ip_, mask_))
     for cip in cips:
         for ip in IP(cip):
             yield ip
