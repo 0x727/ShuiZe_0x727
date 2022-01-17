@@ -340,6 +340,13 @@ issues地址：https://github.com/0x727/ShuiZe_0x727/issues/48
 
 ![](./imgs/qianxinApi.png)
 
+2022.1.17 修复了certspotter接口获取子域名过滤不严谨的问题
+
+感谢union-cmd师傅提交的建议
+
+issues地址：https://github.com/0x727/ShuiZe_0x727/issues/57
+
+
 
 ## 0x08 反馈
 

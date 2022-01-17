@@ -158,9 +158,10 @@ def certspotter_api():
         if 'not_allowed_by_plan' not in text:
             for _ in eval(text):
                 for subdomain in _['dns_names']:
-                    if '*.' in subdomain:
-                        subdomain = subdomain.replace('*.', '')
-                    certspotter_subdomains.append(subdomain)
+                    if domain in subdomain:
+                        if '*.' in subdomain:
+                            subdomain = subdomain.replace('*.', '')
+                        certspotter_subdomains.append(subdomain)
         else:
             print('certspotter API No Subdomains.')
     except Exception as e:
