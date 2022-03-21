@@ -8,7 +8,7 @@ from termcolor import cprint
 
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:46.0) Gecko/20100101 Firefox/46.0'}
 
-# www.beianbeian.com
+# www.beianbeian.com    -- 失效
 def beianbeianApi(domain):
     cprint('Load beianbeianApi: ', 'green')
     # 获取备案ID
@@ -65,88 +65,140 @@ def beianbeianApi(domain):
     #     print(each)
     return beianbeianNewDomains
 
-# icp.chinaz.com
+# # icp.chinaz.com    -- 换接口
+# def chinazApi(domain):
+#
+#     # 解析chinaz返回结果的json数据
+#     def parse_json(json_ret):
+#         chinazNewDomains = []
+#         results = json_ret['data']
+#         for result in results:
+#             companyName = result['webName']
+#             newDomain = result['host']
+#             time = result['verifyTime']
+#             chinazNewDomains.append((companyName, newDomain, time))     # [('城市产业服务平台', 'cloudfoshan.com', '2020-06-09'), ('城市产业服务平台', 'cloudguangzhou.com', '2020-06-09')]
+#         chinazNewDomains = list(set(chinazNewDomains))
+#         return chinazNewDomains
+#
+#     cprint('Load chinazApi: ', 'green')
+#
+#     chinazNewDomains = []
+#     tempDict = {}
+#     tempList = []
+#
+#     # 获取域名的公司名字
+#     url = r'http://icp.chinaz.com/{}'.format(domain)
+#     try:
+#         res = requests.get(url=url, headers=headers, allow_redirects=False, verify=False, timeout=10)
+#     except Exception as e:
+#         print('[error] request : {}\n{}'.format(url, e.args))
+#         return [], []
+#     text = res.text
+#
+#     companyName = re.search("var kw = '([\S]*)'", text)
+#     if companyName:
+#         companyName = companyName.group(1)
+#         print('公司名: {}'.format(companyName))
+#         companyNameUrlEncode = quote(str(companyName))
+#     else:
+#         print('没有匹配到公司名')
+#         return [], []
+#
+#     # 备案反查域名
+#     headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
+#     url = 'http://icp.chinaz.com/Home/PageData'
+#     data = 'pageNo=1&pageSize=20&Kw=' + companyNameUrlEncode
+#     try:
+#         res = requests.post(url=url, headers=headers, data=data, allow_redirects=False, verify=False, timeout=10)
+#     except Exception as e:
+#         print('[error] request : {}\n{}'.format(url, e.args))
+#         return [], []
+#
+#     json_ret = json.loads(res.text)
+#     # print(json_ret)
+#     if 'amount' not in json_ret.keys():
+#         return chinazNewDomains, []
+#     amount = json_ret['amount']
+#     pages = math.ceil(amount / 20)
+#     print('页数: {}'.format(pages))
+#     # 解析返回的json数据包，过滤出公司名，域名，时间     eg: ('城市产业服务平台', 'cloudhuizhou.com', '2020-06-09')
+#     tempList.extend(parse_json(json_ret))
+#     # for _ in chinazNewDomains:
+#     #     print(_)
+#
+#     # 继续获取后面页数
+#     for page in range(2, pages+1):
+#         print('请求第{}页'.format(page))
+#         data = 'pageNo={}&pageSize=20&Kw='.format(page) + companyNameUrlEncode
+#         try:
+#             res = requests.post(url=url, headers=headers, data=data, allow_redirects=False, verify=False, timeout=10)
+#             json_ret = json.loads(res.text)
+#             tempList.extend(parse_json(json_ret))
+#         except Exception as e:
+#             print('[error] request : {}\n{}'.format(url, e.args))
+#
+#
+#     for each in tempList:
+#         if each[1] not in tempDict:
+#             tempDict[each[1]] = each
+#             chinazNewDomains.append(each)
+#
+#     print('chinazApi去重后共计{}个顶级域名'.format(len(chinazNewDomains)))
+#     # for _ in chinazNewDomains:
+#     #     print(_)
+#     return chinazNewDomains, companyName
+
+
 def chinazApi(domain):
-
-    # 解析chinaz返回结果的json数据
-    def parse_json(json_ret):
-        chinazNewDomains = []
-        results = json_ret['data']
-        for result in results:
-            companyName = result['webName']
-            newDomain = result['host']
-            time = result['verifyTime']
-            chinazNewDomains.append((companyName, newDomain, time))     # [('城市产业服务平台', 'cloudfoshan.com', '2020-06-09'), ('城市产业服务平台', 'cloudguangzhou.com', '2020-06-09')]
-        chinazNewDomains = list(set(chinazNewDomains))
-        return chinazNewDomains
-
     cprint('Load chinazApi: ', 'green')
 
     chinazNewDomains = []
-    tempDict = {}
-    tempList = []
+    companyName = ""
 
-    # 获取域名的公司名字
-    url = r'http://icp.chinaz.com/{}'.format(domain)
+
+    # 获取公司名
+    url = "https://micp.chinaz.com/?query={}".format(domain)
     try:
         res = requests.get(url=url, headers=headers, allow_redirects=False, verify=False, timeout=10)
     except Exception as e:
         print('[error] request : {}\n{}'.format(url, e.args))
-        return [], []
+        return chinazNewDomains, companyName
     text = res.text
-
-    companyName = re.search("var kw = '([\S]*)'", text)
+    companyName = re.search('<tr><td class="ww-3 c-39 bg-3fa">主办单位：</td><td class="z-tl">(.*)</td></tr>', text)
     if companyName:
         companyName = companyName.group(1)
-        print('公司名: {}'.format(companyName))
-        companyNameUrlEncode = quote(str(companyName))
     else:
-        print('没有匹配到公司名')
-        return [], []
+        print("[{}] 没有匹配到公司名".format(domain))
+        return chinazNewDomains, companyName
 
-    # 备案反查域名
-    headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
-    url = 'http://icp.chinaz.com/Home/PageData'
-    data = 'pageNo=1&pageSize=20&Kw=' + companyNameUrlEncode
+
+    # 获取备案号
+    url = 'https://micp.chinaz.com/Handle/AjaxHandler.ashx?action=GetBeiansl&query={}&type=host'.format(domain)
     try:
-        res = requests.post(url=url, headers=headers, data=data, allow_redirects=False, verify=False, timeout=10)
+        res = requests.get(url=url, headers=headers, allow_redirects=False, verify=False, timeout=10)
     except Exception as e:
         print('[error] request : {}\n{}'.format(url, e.args))
-        return [], []
+        return chinazNewDomains, companyName
+    text = res.text
+    beianResult = re.findall('SiteLicense:"([^"]*)",SiteName:"([^"]*)",MainPage:"([^"]*)",VerifyTime:"([^"]*)"', text)
+    if not beianResult:
+        print("[{}] 没有查到备案信息".format(domain))
+        return chinazNewDomains, companyName
 
-    json_ret = json.loads(res.text)
-    # print(json_ret)
-    if 'amount' not in json_ret.keys():
-        return chinazNewDomains, []
-    amount = json_ret['amount']
-    pages = math.ceil(amount / 20)
-    print('页数: {}'.format(pages))
-    # 解析返回的json数据包，过滤出公司名，域名，时间     eg: ('城市产业服务平台', 'cloudhuizhou.com', '2020-06-09')
-    tempList.extend(parse_json(json_ret))
-    # for _ in chinazNewDomains:
-    #     print(_)
+    for _ in beianResult:
+        # print(_)
+        beianId, siteName, newDomain, time = _
+        if newDomain.startswith('www.'):
+            newDomain = newDomain.replace("www.", '')
+        chinazNewDomains.append([beianId, siteName, newDomain, time])
 
-    # 继续获取后面页数
-    for page in range(2, pages+1):
-        print('请求第{}页'.format(page))
-        data = 'pageNo={}&pageSize=20&Kw='.format(page) + companyNameUrlEncode
-        try:
-            res = requests.post(url=url, headers=headers, data=data, allow_redirects=False, verify=False, timeout=10)
-            json_ret = json.loads(res.text)
-            tempList.extend(parse_json(json_ret))
-        except Exception as e:
-            print('[error] request : {}\n{}'.format(url, e.args))
+    # print('chinazApi去重后共计{}个顶级域名'.format(len(chinazNewDomains)))
 
-
-    for each in tempList:
-        if each[1] not in tempDict:
-            tempDict[each[1]] = each
-            chinazNewDomains.append(each)
-
-    print('chinazApi去重后共计{}个顶级域名'.format(len(chinazNewDomains)))
-    # for _ in chinazNewDomains:
-    #     print(_)
     return chinazNewDomains, companyName
+
+
+
+
 
 
 def run_beian2domain(domain):
@@ -169,5 +221,5 @@ def run_beian2domain(domain):
     return beianNewDomains, companyName
 
 if __name__ == '__main__':
-    domain = 'aaaaa'
+    domain = 'xxxxxx'
     run_beian2domain(domain)

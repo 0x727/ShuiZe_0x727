@@ -32,16 +32,18 @@ class saveToExcel:
     # 保存备案反查顶级域名的结果
     def saveBeianNewDomains(self, beianNewDomains):
         if self.Sheet_line == 1:
-            self.sheet.cell(self.Sheet_line, 1).value = '公司名'
-            self.sheet.cell(self.Sheet_line, 2).value = '域名'
-            self.sheet.cell(self.Sheet_line, 3).value = '备案时间'
+            self.sheet.cell(self.Sheet_line, 1).value = '备案号'
+            self.sheet.cell(self.Sheet_line, 2).value = '网站名'
+            self.sheet.cell(self.Sheet_line, 3).value = '域名'
+            self.sheet.cell(self.Sheet_line, 4).value = '备案时间'
             self.Sheet_line += 1
 
         for _ in beianNewDomains:
-            companyName, newDomain, time = _
-            self.sheet.cell(self.Sheet_line, 1).value = companyName
-            self.sheet.cell(self.Sheet_line, 2).value = newDomain
-            self.sheet.cell(self.Sheet_line, 3).value = time
+            beianId, siteName, newDomain, time = _
+            self.sheet.cell(self.Sheet_line, 1).value = beianId
+            self.sheet.cell(self.Sheet_line, 2).value = siteName
+            self.sheet.cell(self.Sheet_line, 3).value = newDomain
+            self.sheet.cell(self.Sheet_line, 4).value = time
             self.Sheet_line += 1
         self.excel.save(self.excelSavePath)
 

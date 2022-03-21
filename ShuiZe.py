@@ -169,7 +169,7 @@ def beian2NewDomain():
     beianNewDomains, companyName = run_beian2domain(domain)
 
     for _ in beianNewDomains:
-        newDomains.append(_[1])
+        newDomains.append(_[2])
 
     # 保存到excel
     beianNewDomainsSheet = saveToExcel(excelSavePath, excel, '备案反查顶级域名')
