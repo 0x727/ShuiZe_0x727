@@ -46,7 +46,7 @@ def query(query_str):
     fofa_service_host_port = []     # 存放非Web服务器的ip/domain和port，用来后面的未授权漏洞检测
 
     qbase64 = str(base64.b64encode(query_str.encode(encoding='utf-8')), 'utf-8')
-    url = r'https://fofa.so/api/v1/search/all?email={}&key={}&qbase64={}&size={}&page={}&fields=host,title,ip,domain,port,server,protocol,city'.format(email, key, qbase64, size, page)
+    url = r'https://fofa.info/api/v1/search/all?email={}&key={}&qbase64={}&size={}&page={}&fields=host,title,ip,domain,port,server,protocol,city'.format(email, key, qbase64, size, page)
     try:
         ret = json.loads(requests.get(url=url, headers=headers, timeout=10, verify=False).text)
         fofa_Results = ret['results']

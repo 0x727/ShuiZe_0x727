@@ -49,7 +49,7 @@ def curlWeb(socks5_proxys_queue, socksProxysDict):
 def query_socks5():
     query_str = r'protocol=="socks5" && "Version:5 Method:No Authentication(0x00)" && country="CN"'
     qbase64 = str(base64.b64encode(query_str.encode(encoding='utf-8')), 'utf-8')
-    url = r'https://fofa.so/api/v1/search/all?email={}&key={}&qbase64={}&size={}&page={}&fields=host,title,ip,domain,port,country,city,server,protocol'.format(email, key, qbase64, size, page)
+    url = r'https://fofa.info/api/v1/search/all?email={}&key={}&qbase64={}&size={}&page={}&fields=host,title,ip,domain,port,country,city,server,protocol'.format(email, key, qbase64, size, page)
 
     socks5_proxys = []
     try:

@@ -346,7 +346,7 @@ issues地址：https://github.com/0x727/ShuiZe_0x727/issues/48
 
 issues地址：https://github.com/0x727/ShuiZe_0x727/issues/57
 
-
+2022.3.21 更新了fofa api的域名
 
 ## 0x08 反馈
 
