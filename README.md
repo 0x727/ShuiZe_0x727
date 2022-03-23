@@ -356,7 +356,7 @@ issues地址：https://github.com/0x727/ShuiZe_0x727/issues/57
 
 ![](./imgs/securitytrails.png)
 
-感谢郭师傅提交的建议
+感谢 **郭师傅** 提交的建议
 
 2022.3.23 修复了爱企查无法获取数据的问题
 
