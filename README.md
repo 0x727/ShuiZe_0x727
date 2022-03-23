@@ -278,15 +278,15 @@ POC的模板文件例子：`Plugins/Vul/Web/__template__.py`
 
 需要censys的api，免费的账户一个月只有250次查询，所以后期需要注意，用完了要更新api
 
-2021.7.31 增加了Host碰撞访问内网系统漏洞，感谢小洲提交的建议
+2021.7.31 增加了Host碰撞访问内网系统漏洞，感谢 **横戈安全团队-小洲** 提交的建议
 
 ![](imgs/hostCollide.png)
 
-2021.8.1 修复了CDN判断的bug，感谢 leveryd 师傅提交的bug。
+2021.8.1 修复了CDN判断的bug，感谢 **leveryd 师傅** 提交的bug。
 
 issues地址：https://github.com/0x727/ShuiZe_0x727/issues/3 
 
-2021.8.3 修复了chinazApi接口请求超时太长的bug，设置默认时间10秒，感谢 k0njac 师傅提交的bug。
+2021.8.3 修复了chinazApi接口请求超时太长的bug，设置默认时间10秒，感谢 **k0njac 师傅**提交的bug。
 
 issues地址：https://github.com/0x727/ShuiZe_0x727/issues/11 
 
@@ -300,7 +300,7 @@ ksubdomain项目地址：https://github.com/knownsec/ksubdomain
 
 2021.9.1 增加了从fofa中爬去socks代理功能，后续可以手动配合proxychains进行漏洞探测，防止因为被封IP导致漏报。
 
-感谢团队的1amfine2333师傅提供的思路。
+感谢 **安恒水滴实验室-1amfine2333师傅** 提供的思路。
 
 ![](./imgs/socksProxy.png)
 
@@ -308,7 +308,7 @@ ksubdomain项目地址：https://github.com/knownsec/ksubdomain
 
 2021.9.4 增加了某查接口，对目标的整个架构分析，涵盖【对外投资、控股公司、分支机构、联系方式、邮箱】等信息。
 
-感谢pykiller师傅提交的建议，同时参考了吐司师傅gubeiya的脚本
+感谢 **pykiller师傅** 提交的建议，同时参考了 **吐司师傅gubeiya** 的脚本
 
 issues地址：https://github.com/0x727/ShuiZe_0x727/issues/25
 
@@ -342,7 +342,7 @@ issues地址：https://github.com/0x727/ShuiZe_0x727/issues/48
 
 2022.1.17 修复了certspotter接口获取子域名过滤不严谨的问题
 
-感谢union-cmd师傅提交的建议
+感谢 **union-cmd师傅** 提交的建议
 
 issues地址：https://github.com/0x727/ShuiZe_0x727/issues/57
 
@@ -357,6 +357,10 @@ issues地址：https://github.com/0x727/ShuiZe_0x727/issues/57
 ![](./imgs/securitytrails.png)
 
 感谢郭师傅提交的建议
+
+2022.3.23 修复了爱企查无法获取数据的问题
+
+感谢 **横戈安全团队-chhyx（逗逗）** 的技术支持
 
 ## 0x08 反馈
 

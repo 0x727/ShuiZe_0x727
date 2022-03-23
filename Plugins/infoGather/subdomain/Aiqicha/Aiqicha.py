@@ -10,12 +10,7 @@ headers = {
         'Upgrade-Insecure-Requests': '1',
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36',
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-        'Sec-Fetch-Site': 'same-origin',
-        'Sec-Fetch-Mode': 'navigate',
-        'Sec-Fetch-User': '?1',
-        'Sec-Fetch-Dest': 'document',
-        'Accept-Language': 'zh-CN,zh;q=0.9',
-        'Cookie': 'BIDUPSID=1FAA6F4D89C6311BCA477B5B766A408D; PSTM=1618319039; BAIDUID=1FAA6F4D89C6311BB29AB4FE1AEC0084:FG=1; delPer=0; PSINO=1; __yjs_duid=1_b459443288e79c76f299132c456ba4bf1630477596321; H_PS_PSSID=34437_34443_34379_34496_31254_34004_34092_34106_26350_34418_22159; Hm_lvt_ad52b306e1ae4557f5d3534cce8f8bbf=1630490457; ZX_UNIQ_UID=235603df155283fc03e1ca707604f293; _j47_ka8_=57; log_guid=de290298a47b69cc93fdb016cc66a223; BA_HECTOR=8ha10h258l242k20rp1gj0bse0r; Hm_lpvt_ad52b306e1ae4557f5d3534cce8f8bbf=1630547983; _fb537_=xlTM-TogKuTwvJ4X5I46%2AIuoCngLaKAfi6M%2AOS5mhcHqmd; __yjs_st=2_OTg5ZGJiYzBlZThjNWEyZTU0ZTA1NmVhNGRjZGI3NWNmMzRhYmY1YTNhODUxNzQ0OTlmMmQ2NmYzNWEwNzY3N2MzY2U5MzJkZjJhMjljYjE4MWJjZTYxMDk0YzZhZTlmZThjMzFiODJmNDUwNzU5YjBjY2Q3Y2Y4NTk4OGQ1MjkzNzI2YTAxM2FlZGVlNTY2MzY4ZTdmMmI2MmNjYzQ2YTkzYjdkODc0ZGU4YTcyZTNlYzNkMDEwZGE2ZDFmZWVhMDc5ZjgxMjJhMzIzODVmMzFhNWRlMzA2Y2M0Mjc5ZDQxY2UyMjc2ODFlMjM3MzRkYjFiMjI4OTNhYTI5YTkxM183X2RlNTJjNTZi; ab_sr=1.0.1_MWE0MzIwZjE0ZjQ2OTIzYTk5ZGMyOTQ1ZTBkYzcwM2MwOGI0ZWRjZjFmMmMxZDM0Y2Q0MzNlNzM2OWFiZmY5Y2YxM2MyOTM1ODJkZWExNDE0YzU3MmM3ODY2MzI4YWJhZWYxODBjZWJlYjhhM2FjNmE2MThjYmU0MmJiNWFhYjQ5NTEyMTE5ODA0OGQ4MGEyYTRiNDA3YTk2MjI3M2YwOQ==; _s53_d91_=2a32a31ab347483e2096871f98f0842b6ea08522c97c28c46353e56e86219e6409e838e83117a08774a8da295a5e9b0ed642b4685b780d1731e601956b4f0b82cbd45570696a8e96493db3197f88b7dd82945497dac07440c6e49d09f3e22f1452a5c00539afa2e4128ef497a792655c5b94fd56f8950542cf4f975e7426d5e73f199201a826c95d393e4afb78b199329d6e9fd6fcb87ed85a8e1e769c9ee4ff176e1f2f50250e3a86706cc09695d4d362f6ce2bba20a8c7fd13308cd1ea48f061c48546de8fa42c1ab0e9faf387a0c4; _y18_s21_=70c80ef2; RT="z=1&dm=baidu.com&si=te7c3g5s27i&ss=kt2a2egs&sl=4&tt=1d8h&bcn=https%3A%2F%2Ffclog.baidu.com%2Flog%2Fweirwood%3Ftype%3Dperf&ld=3wfa&ul=1qdpt"'
+        'Cookie': 'BDPPN=b355f0dd5e3595723bd0bfe53b09c873;BDUSS=UxSkRCdFlrfmg0ZFg2ZkVJelcyVWpJMm12cjU4WXB1UnBLemRmbEZYcFdqVTFoSVFBQUFBJCQAAAAAAAAAAAEAAAClOWAGeHV0YW8yMDEwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFYAJmFWACZhbz;BIDUPSID=1FAA6F4D89C6311BCA477B5B766A408D; PSTM=1618319039; BAIDUID=1FAA6F4D89C6311BB29AB4FE1AEC0084:FG=1; delPer=0; PSINO=1; __yjs_duid=1_b459443288e79c76f299132c456ba4bf1630477596321; H_PS_PSSID=34437_34443_34379_34496_31254_34004_34092_34106_26350_34418_22159; Hm_lvt_ad52b306e1ae4557f5d3534cce8f8bbf=1630490457; ZX_UNIQ_UID=235603df155283fc03e1ca707604f293; _j47_ka8_=57; log_guid=de290298a47b69cc93fdb016cc66a223; BA_HECTOR=8ha10h258l242k20rp1gj0bse0r; Hm_lpvt_ad52b306e1ae4557f5d3534cce8f8bbf=1630547983; _fb537_=xlTM-TogKuTwvJ4X5I46%2AIuoCngLaKAfi6M%2AOS5mhcHqmd; __yjs_st=2_OTg5ZGJiYzBlZThjNWEyZTU0ZTA1NmVhNGRjZGI3NWNmMzRhYmY1YTNhODUxNzQ0OTlmMmQ2NmYzNWEwNzY3N2MzY2U5MzJkZjJhMjljYjE4MWJjZTYxMDk0YzZhZTlmZThjMzFiODJmNDUwNzU5YjBjY2Q3Y2Y4NTk4OGQ1MjkzNzI2YTAxM2FlZGVlNTY2MzY4ZTdmMmI2MmNjYzQ2YTkzYjdkODc0ZGU4YTcyZTNlYzNkMDEwZGE2ZDFmZWVhMDc5ZjgxMjJhMzIzODVmMzFhNWRlMzA2Y2M0Mjc5ZDQxY2UyMjc2ODFlMjM3MzRkYjFiMjI4OTNhYTI5YTkxM183X2RlNTJjNTZi; ab_sr=1.0.1_MWE0MzIwZjE0ZjQ2OTIzYTk5ZGMyOTQ1ZTBkYzcwM2MwOGI0ZWRjZjFmMmMxZDM0Y2Q0MzNlNzM2OWFiZmY5Y2YxM2MyOTM1ODJkZWExNDE0YzU3MmM3ODY2MzI4YWJhZWYxODBjZWJlYjhhM2FjNmE2MThjYmU0MmJiNWFhYjQ5NTEyMTE5ODA0OGQ4MGEyYTRiNDA3YTk2MjI3M2YwOQ==; _s53_d91_=2a32a31ab347483e2096871f98f0842b6ea08522c97c28c46353e56e86219e6409e838e83117a08774a8da295a5e9b0ed642b4685b780d1731e601956b4f0b82cbd45570696a8e96493db3197f88b7dd82945497dac07440c6e49d09f3e22f1452a5c00539afa2e4128ef497a792655c5b94fd56f8950542cf4f975e7426d5e73f199201a826c95d393e4afb78b199329d6e9fd6fcb87ed85a8e1e769c9ee4ff176e1f2f50250e3a86706cc09695d4d362f6ce2bba20a8c7fd13308cd1ea48f061c48546de8fa42c1ab0e9faf387a0c4; _y18_s21_=70c80ef2; RT="z=1&dm=baidu.com&si=te7c3g5s27i&ss=kt2a2egs&sl=4&tt=1d8h&bcn=https%3A%2F%2Ffclog.baidu.com%2Flog%2Fweirwood%3Ftype%3Dperf&ld=3wfa&ul=1qdpt"'
     }
 
 requests_proxies = None
@@ -175,10 +170,11 @@ def branch(pid, branch_page):
 
 def start(searchContent):
     # 获取匹配度最高的pid
-    url = 'https://aiqicha.baidu.com/s?q={}&t=0'.format(searchContent)
+    url = 'https://aiqicha.baidu.com/index/suggest'
+    data = {"q": searchContent}
 
     try:
-        res = requests.get(url=url, headers=headers, proxies=requests_proxies, verify=False, timeout=TIMEOUT)
+        res = requests.post(url=url, data=data, headers=headers, proxies=requests_proxies, verify=False, timeout=TIMEOUT)
     except Exception as e:
         print(e.args)
         return [], [], [], []
@@ -290,6 +286,6 @@ def run_aiqicha(searchContent):
 
 
 if __name__ == '__main__':
-    searchContent = "xxxx"
+    searchContent = "XXXXX"
     run_aiqicha(searchContent)
 
