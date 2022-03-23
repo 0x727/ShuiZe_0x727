@@ -105,7 +105,7 @@ def qianxun_api():
     print('[{}] {}'.format(len(qianxun_subdomains), qianxun_subdomains))
     return qianxun_subdomains
 
-# https://api.sublist3r.com/search.php?domain=hbu.cn 查询结果 返回json
+# https://api.sublist3r.com/search.php?domain= 查询结果 返回json
 def sublist3r_api():
     print('Load sublist3r api ...')
     url = r'https://api.sublist3r.com/search.php?domain={}'.format(domain)
@@ -333,6 +333,39 @@ def ximcx_api():
     print('[{}] {}'.format(len(ximcx_subdomains), ximcx_subdomains))
     return ximcx_subdomains
 
+# https://securitytrails.com/
+def securitytrails_api():
+    print('Load securitytrails api ...')
+
+    headers['apikey'] = securitytrailsApi
+    headers['Accept'] = 'application/json'
+    securitytrails_subdomains = []
+
+    try:
+        url = "https://api.securitytrails.com/v1/ping"
+        res = requests.get(url=url, headers=headers, verify=False, timeout=TIMEOUT)
+    except Exception as e:
+        print('[-] error: {}'.format(e.args))
+        return securitytrails_subdomains
+
+    if res.status_code != 200:
+        print('[-] securitytrails key错误')
+        return securitytrails_subdomains
+
+    try:
+        url = "https://api.securitytrails.com/v1/domain/{}/subdomains?children_only=false&include_inactive=true".format(domain)
+        res = requests.get(url=url, headers=headers, verify=False, timeout=TIMEOUT)
+    except Exception as e:
+        print('[-] error: {}'.format(e.args))
+        return securitytrails_subdomains
+
+    text = json.loads(res.text)
+    subdomains = text['subdomains']
+    for subdomain in subdomains:
+        securitytrails_subdomains.append("{}.{}".format(subdomain, domain))
+
+    print('[{}] {}'.format(len(securitytrails_subdomains), securitytrails_subdomains))
+    return securitytrails_subdomains
 
 def othersApiSearch():
     virustotal_subdomains = virustotal_api()
@@ -349,6 +382,7 @@ def othersApiSearch():
     rapiddns_subdomains = rapiddns_api()
     sitedossier_subdomains = sitedossier_api()
     ximcx_subdomains = ximcx_api()
+    securitytrails_subdomains = securitytrails_api()
 
     othersApiTotalSubdomains = []
     for name, value in locals().items():
@@ -359,11 +393,12 @@ def othersApiSearch():
 
 # 初始化参数
 def init(_):
-    global virustotalApi, headers, domain
+    global virustotalApi, securitytrailsApi, headers, domain
     cf = configparser.ConfigParser()
     cf.read("./iniFile/config.ini")
     # cf.read("../../../../iniFile/config.ini")     # 测试用
     virustotalApi = cf.get('virustotal api', 'VIRUSTOTAL_API')  # virustotal Api
+    securitytrailsApi = cf.get('securitytrails api', 'Securitytrails_API')
     headers = {
         'user-agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
     domain = _
@@ -378,10 +413,8 @@ def othersApiRun(domain):
     return othersApiTotalSubdomains
 
 
-# print(othersApiRun('hbu.edu.cn'))
-
 if __name__ == '__main__':
-    domain = ''
+    domain = 'xxxxx'
     headers = {
         'user-agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
 

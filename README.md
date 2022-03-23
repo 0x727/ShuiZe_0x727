@@ -350,6 +350,14 @@ issues地址：https://github.com/0x727/ShuiZe_0x727/issues/57
 
 2022.3.21 更新了域名备案反查的问题
 
+2022.3.23 增加了securitytrails接口获取子域名，该接口很强大，建议在config.ini里添加你的api keys
+
+注册地址: https://docs.securitytrails.com/
+
+![](./imgs/securitytrails.png)
+
+感谢郭师傅提交的建议
+
 ## 0x08 反馈
 
 ShuiZe（水泽） 是一个免费且开源的项目，我们欢迎任何人为其开发和进步贡献力量。
