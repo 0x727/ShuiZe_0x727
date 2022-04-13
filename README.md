@@ -352,7 +352,7 @@ issues地址：https://github.com/0x727/ShuiZe_0x727/issues/57
 
 2022.3.23 增加了securitytrails接口获取子域名，该接口很强大，建议在config.ini里添加你的api keys
 
-issues地址：https://github.com/0x727/ShuiZe_0x727/issues/74
+issues地址：https://github.com/0x727/ShuiZe_0x727/issues/48
 
 注册地址: https://docs.securitytrails.com/
 
@@ -365,6 +365,8 @@ issues地址：https://github.com/0x727/ShuiZe_0x727/issues/74
 感谢 **横戈安全团队-chhyx（逗逗）** 的技术支持
 
 2022.4.13 修复了奇安信测绘语法使用错误的问题
+
+issues地址：https://github.com/0x727/ShuiZe_0x727/issues/74
 
 感谢 **cwkiller** 反馈的问题
 
