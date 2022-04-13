@@ -530,7 +530,7 @@ def run_webSpace(domain, SubdomainAndNotCDNIPs, CIP_List, fofaTitle):
     def run_qianxin():
         # 查询域名
         if domain:
-            query_str = '(domain="{}")&&(country=="中国")'.format(domain)
+            query_str = '(domain.suffix="{}")&&(country=="中国")'.format(domain)
             qianxin_Results, qianxin_web_host_port, qianxin_service_host_port = qianxinApi.query_domain(query_str)
             if qianxin_Results:
                 webSpaceSheet.saveWebSpace('qianxin', qianxin_Results, query_str)
