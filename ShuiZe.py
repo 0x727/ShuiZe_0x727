@@ -86,7 +86,7 @@ def get_GitSensitiveInfo(github_txt, raw_url_emails):
     line_urls = {}
     gitSensitiveInfo = []
 
-    with open(github_txt, 'rt') as f:
+    with open(github_txt, 'rt', encoding="utf-8", errors='ignore') as f:
         content = f.readlines()
         for line, each in enumerate(content):
             if '[------------------] ' in each:
@@ -758,53 +758,65 @@ def run_getWebTitle(web_host_port, ip_address_dict):
 # Web漏洞检测
 def detect_webVul(alive_Web):
 
+    # 跑自己的漏洞脚本
+    def runSelfVul():
+        vul_path = os.getcwd() + '/Plugins/Vul/Web/'
+        sys.path.append(vul_path)  # 添加环境变量
+        vulList = filter(lambda x: (True, False)[x[-3:] == 'pyc' or x[-5:] == '__.py' or x[:2] == '__'],
+                         os.listdir(vul_path))  # 获取漏洞脚本
+
+        # 内网跑的漏洞
+        intPassVul = ['Jboss.py', 'phpstudy.py', 'weblogic.py', 'cms.py', 'yongyou.py', 'easyConnect.py', 'shiro.py']
+
+        for vulName in vulList:
+            tqdm.write(Fore.BLACK + '-' * 50 + 'detect ' + vulName[:-3] + '-' * 50)  # 探测各种漏洞
+            md = __import__(vulName[:-3])  # 导入类
+            try:
+                if hasattr(md, 'Detect'):
+                    detect = getattr(md, 'Detect')  # 获取类
+
+                    alive_Web_queue = Queue(-1)  # 将存活的web存入队列里
+                    for _ in alive_Web:
+                        alive_Web_queue.put(_)
+
+                    threads = []
+                    if isIntranet == 1:
+                        threadNum = 30  # 如果是扫内网，则线程为5
+                        if vulName in intPassVul:
+                            pass
+                        else:
+                            tqdm.write(Fore.BLACK + '内网不跑{}漏洞'.format(vulName))
+                            continue
+                    else:
+                        threadNum = 100  # 扫外网则线程为300
+
+                    pbar = tqdm(total=alive_Web_queue.qsize(), desc="检测Web漏洞", ncols=150)  # total是总数
+
+                    for num in range(1, threadNum + 1):
+                        t = detect(alive_Web_queue, pbar, webVul_list, requests_proxies)  # 实例化漏洞类，传递参数：存活web的队列，  存储漏洞的列表
+                        threads.append(t)
+                        t.start()
+                    for t in threads:
+                        t.join()
+
+                    pbar.close()
+            except Exception as e:
+                tqdm.write(Fore.BLACK + r'[-] Load Vul [{}] Error: {}'.format(vulName, e.args))
+                continue
+
+    # 调用Nuclei跑漏洞
+    def runNucleiVul():
+        cprint('-' * 50 + 'Load Nuclei ...' + '-' * 50, 'green')
+        from Plugins.Vul.Nuclei.NucleiApi import run_nuclei
+        nucleiVul_list = run_nuclei(alive_Web)
+        webVul_list.extend(nucleiVul_list)
+
     tqdm.write(Fore.BLACK + '-' * 50 + 'detect Web vul' + '-' * 50)  # 探测各种漏洞
     webVul_list = []  # 存储Web漏洞，每个元素都是一个列表。[['shiro', 'http://127.0.0.1'], ['weblogic', 'http://127.0.0.1'], ['phpstudy', 'http://127.0.0.1']]
 
-    vul_path = os.getcwd() + '/Plugins/Vul/Web/'
-    sys.path.append(vul_path)  # 添加环境变量
-    vulList = filter(lambda x: (True, False)[x[-3:] == 'pyc' or x[-5:] == '__.py' or x[:2] == '__'],
-                     os.listdir(vul_path))  # 获取漏洞脚本
-
-    # 内网跑的漏洞
-    intPassVul = ['Jboss.py', 'phpstudy.py', 'weblogic.py', 'cms.py', 'yongyou.py', 'easyConnect.py', 'shiro.py']
-
-    for vulName in vulList:
-        tqdm.write(Fore.BLACK + '-' * 50 + 'detect ' + vulName[:-3] + '-' * 50)  # 探测各种漏洞
-        md = __import__(vulName[:-3])  # 导入类
-        try:
-            if hasattr(md, 'Detect'):
-                detect = getattr(md, 'Detect')  # 获取类
-
-                alive_Web_queue = Queue(-1)  # 将存活的web存入队列里
-                for _ in alive_Web:
-                    alive_Web_queue.put(_)
-
-                threads = []
-                if isIntranet == 1:
-                    threadNum = 30  # 如果是扫内网，则线程为5
-                    if vulName in intPassVul:
-                        pass
-                    else:
-                        tqdm.write(Fore.BLACK + '内网不跑{}漏洞'.format(vulName))
-                        continue
-                else:
-                    threadNum = 100  # 扫外网则线程为300
-
-                pbar = tqdm(total=alive_Web_queue.qsize(), desc="检测Web漏洞", ncols=150)  # total是总数
-
-                for num in range(1, threadNum + 1):
-                    t = detect(alive_Web_queue, pbar, webVul_list, requests_proxies)  # 实例化漏洞类，传递参数：存活web的队列，  存储漏洞的列表
-                    threads.append(t)
-                    t.start()
-                for t in threads:
-                    t.join()
-
-                pbar.close()
-        except Exception as e:
-            tqdm.write(Fore.BLACK + r'[-] Load Vul [{}] Error: {}'.format(vulName, e.args))
-            continue
-
+    runSelfVul()
+    runNucleiVul()
+    # print(webVul_list)
     return webVul_list
 
 # 参数漏洞检测
@@ -1558,6 +1570,10 @@ def _init():
         notCDNSubdomains = []
         param_Links = []
         run_cSubnet(CIP_List, Subdomains_ips, notCDNSubdomains, param_Links)
+
+        alive_Web = ['']
+        detect_webVul(alive_Web)
+
 
     elif getSocks == 1:
         # 从fofa收集代理

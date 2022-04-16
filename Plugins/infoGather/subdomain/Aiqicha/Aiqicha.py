@@ -286,6 +286,6 @@ def run_aiqicha(searchContent):
 
 
 if __name__ == '__main__':
-    searchContent = "XXXXX"
+    searchContent = ""
     run_aiqicha(searchContent)
 
