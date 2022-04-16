@@ -370,6 +370,13 @@ issues地址：https://github.com/0x727/ShuiZe_0x727/issues/74
 
 感谢 **cwkiller** 反馈的问题
 
+2022.4.16 增加了调用Nuclei检测漏洞
+
+nuclei的参数在iniFile/config.ini配置，默认为`nuclei_config = -rl 300 -c 50 -timeout 5 -stats -silent -severity critical,high` 根据需求自行修改
+
+![](./imgs/nuclei_1.png)
+
+
 ## 0x08 反馈
 
 ShuiZe（水泽） 是一个免费且开源的项目，我们欢迎任何人为其开发和进步贡献力量。
