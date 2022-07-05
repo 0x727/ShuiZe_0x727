@@ -376,6 +376,13 @@ nuclei的参数在iniFile/config.ini配置，默认为`nuclei_config = -rl 300 -
 
 ![](./imgs/nuclei_1.png)
 
+2022.7.5 Nuclei默认参数配置增加-as
+
+issues地址: https://github.com/0x727/ShuiZe_0x727/issues/104
+
+-as 参数，先使用 wappalyzer 进行指纹识别，在进行扫描。
+
+感谢 **anquanbiji** 反馈的建议
 
 ## 0x08 反馈
 
