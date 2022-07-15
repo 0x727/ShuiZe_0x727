@@ -60,6 +60,10 @@ chmod 777 docker_build.sh
 ./docker_build.sh
 ```
 
+也可使用 [@1itt1eB0y](https://github.com/1itt1eB0y) 提供的Dockerfile和docker-compose.yml构建镜像并运行
+
+链接：https://github.com/1itt1eB0y/MyCollection/tree/master/docker/shuize
+
 ## 0x03 效果展示
 
 备案反查顶级域名
