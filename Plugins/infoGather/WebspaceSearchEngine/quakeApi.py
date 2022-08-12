@@ -59,7 +59,7 @@ def filter_data(data):
         if 'http' in service.keys():
             http = service['http']
             host = http['host']  # 子域名
-            title = http['title']  # title
+            title = http.get('title','not exist')  # title
             # x_powered_by = http['x_powered_by']
             # favicon = http['favicon']
             # path = http['path']  # 路径

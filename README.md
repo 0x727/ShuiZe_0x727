@@ -399,6 +399,11 @@ issues地址: https://github.com/0x727/ShuiZe_0x727/issues/99
 
 2022.8.12 修复了大量反馈aiqicha脚本报错的问题，初步排查是被封IP的原因。
 
+2022.8.12 修复了quakeApi没有title导致报错的情况
+
+issues地址: https://github.com/0x727/ShuiZe_0x727/issues/120
+
+感谢 **Zimba5880** 反馈的建议
 
 ## 0x08 反馈
 
