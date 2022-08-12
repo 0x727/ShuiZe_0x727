@@ -220,13 +220,18 @@ def start(searchContent):
     # print(text)
     text_json = json.loads(text)
     basic, certRecord = [], []
-    for _ in text_json["data"]:
-        if _["id"] == "basic":
-            # 基本信息
-            basic = _["children"]
-        if _["id"] == "certRecord":
-            # 知识产权
-            certRecord = _["children"]
+    try:
+        for _ in text_json["data"]:
+            if _["id"] == "basic":
+                # 基本信息
+                basic = _["children"]
+            if _["id"] == "certRecord":
+                # 知识产权
+                certRecord = _["children"]
+    except Exception as e:
+        print("可能被封IP了。。。")
+        return [], [], [], []
+
     # print(basic)
     # print(certRecord)
     global invest_num, holds_num, branch_num, webRecord_num
