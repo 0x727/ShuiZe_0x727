@@ -8,3 +8,6 @@
 2022.3.23 增加了securitytrails接口获取子域名，该接口很强大，建议在config.ini里添加你的api keys
 2022.3.23 修复了爱企查无法获取数据的问题
 2022.7.5 增加Nuclei默认参数配置-as,先进行wappalyzer指纹识别
+2022.8.12 ShuiZe增加Dockerfile安装方式
+2022.8.12 修复了大量反馈aiqicha脚本报错的问题，初步排查是被封IP的原因
+2022.8.12 修复了quakeApi没有title导致报错的情况

@@ -66,6 +66,8 @@ chmod 777 docker_build.sh
 
 **请自行评估安全性**
 
+**脚本自带Linux版本的Nuclei和ksubdomain，如果是windows或者mac，需要自行更换版本。**
+
 ## 0x03 效果展示
 
 备案反查顶级域名
