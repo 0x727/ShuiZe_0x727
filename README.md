@@ -60,6 +60,12 @@ chmod 777 docker_build.sh
 ./docker_build.sh
 ```
 
+也可参考 [@1itt1eB0y](https://github.com/1itt1eB0y) 提供的Dockerfile和docker-compose.yml构建镜像并运行
+
+链接：https://github.com/1itt1eB0y/MyCollection/tree/master/docker/shuize
+
+**请自行评估安全性**
+
 ## 0x03 效果展示
 
 备案反查顶级域名
@@ -383,6 +389,14 @@ issues地址: https://github.com/0x727/ShuiZe_0x727/issues/104
 -as 参数，先使用 wappalyzer 进行指纹识别，在进行扫描。
 
 感谢 **anquanbiji** 反馈的建议
+
+2022.8.12 ShuiZe增加Dockerfile安装方式
+
+issues地址: https://github.com/0x727/ShuiZe_0x727/issues/99
+
+感谢 [@1itt1eB0y](https://github.com/1itt1eB0y) 提供的脚本
+
+**安全性自行评估**
 
 ## 0x08 反馈
 
