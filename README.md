@@ -394,11 +394,11 @@ issues地址: https://github.com/0x727/ShuiZe_0x727/issues/104
 
 issues地址: https://github.com/0x727/ShuiZe_0x727/issues/99
 
-感谢 [@1itt1eB0y](https://github.com/1itt1eB0y) 提供的脚本
+感谢 [@1itt1eB0y](https://github.com/1itt1eB0y) 提供的脚本。**安全性自行评估**
+
 
 2022.8.12 修复了大量反馈aiqicha脚本报错的问题，初步排查是被封IP的原因。
 
-**安全性自行评估**
 
 ## 0x08 反馈
 
