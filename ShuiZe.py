@@ -1392,7 +1392,6 @@ def _init():
 
     usage = '\n\t' \
             'python3 %prog -d domain.com\n\t' \
-            'python3 %prog -d domain.com --proxyFlag 1\n\t' \
             'python3 %prog -d domain.com --justInfoGather 1\n\t' \
             'python3 %prog -d domain.com --ksubdomain 0\n\t' \
             'python3 %prog -c 192.168.1.0,192.168.2.0,192.168.3.0\n\t' \
