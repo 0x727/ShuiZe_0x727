@@ -741,6 +741,9 @@ def run_getWebTitle(web_host_port, ip_address_dict):
         threadNum = 10        # 如果是扫内网，则线程为5
     else:
         threadNum = 300      # 扫外网则线程为300
+
+    # title不需要使用快代理
+    requests_proxies = None
     web_Titles = getWebTitle.run_getWebTitle(web_host_port, ip_address_dict, requests_proxies, threadNum)
     # print(web_Titles)
     alive_Web = []  # 存活的web服务
@@ -789,6 +792,10 @@ def detect_webVul(alive_Web):
                             continue
                     else:
                         threadNum = 100  # 扫外网则线程为300
+
+                    # 使用快代理时，线程调整
+                    if kuaidaili_thread_num:
+                        threadNum = int(kuaidaili_thread_num)
 
                     pbar = tqdm(total=alive_Web_queue.qsize(), desc="检测Web漏洞", ncols=150)  # total是总数
 
@@ -1373,7 +1380,7 @@ def checkVersion():
 def _init():
     global domain, cSubnet, save_fold_path, excel, excel_name, excelSavePath, proxy, \
         requests_proxies, isIntranet, xlsxFileWB, weak, CIP_List, allTargets_List, \
-        allTargets_Queue, masNmapFile, newDomains, ip_count, fofaTitle, ksubdomain, justInfoGather, socksProxysDict
+        allTargets_Queue, masNmapFile, newDomains, ip_count, fofaTitle, ksubdomain, justInfoGather, socksProxysDict, kuaidaili_thread_num
 
     # python3 %prog -n 1 -c 192.168.1.0,192.168.2.0 -p 1.1.1.1:1111                 内网：使用代理扫描内网C段资产：web标题和漏洞
     # proxychains4 python3 %prog -n 1 -f /result/2ddcaa3ebbd0/172.18.82.0.xlsx      内网：使用proxychains4代理扫描C段的服务漏洞：弱口令和未授权
@@ -1385,6 +1392,7 @@ def _init():
 
     usage = '\n\t' \
             'python3 %prog -d domain.com\n\t' \
+            'python3 %prog -d domain.com --proxyFlag 1\n\t' \
             'python3 %prog -d domain.com --justInfoGather 1\n\t' \
             'python3 %prog -d domain.com --ksubdomain 0\n\t' \
             'python3 %prog -c 192.168.1.0,192.168.2.0,192.168.3.0\n\t' \
@@ -1401,6 +1409,7 @@ def _init():
     parse = OptionParser(usage=usage)
     parse.add_option('-d', '--domain', dest='domain', type='string', help='target domain')
     parse.add_option('-c', '--cSubnet', dest='cSubnet', type='string', help='target cSubnet')
+    # parse.add_option('--proxyFlag', dest='proxyFlag', type='int', default=0, help='0:No,1:kuaidaili,2:tencentcs')  # 0不使用代理扫描，1使用快代理扫描，2使用腾讯云函数扫描
     parse.add_option('-n', '--intranet', dest='isIntranet', type='int', default=0, help='Scan intranet value set to 1')        # 扫描内网, 值为1扫内网， 默认为0
     parse.add_option('-p', '--proxy', dest='proxy', type='string', default=None, help='Intranet proxy socks5 socks4')           # 代理，socks5和socks4, 默认为None，可用于外网扫描，也可以用于内网扫描
     parse.add_option('-f', '--file', dest='File', type='string', default=None, help='/result/2ddcaa3ebbd0/172.18.82.0.xlsx')  # 扫描内网的服务漏洞-未授权和弱口令
@@ -1414,6 +1423,7 @@ def _init():
     parse.add_option('--test', dest='testDemo', type='int', default=0, help='if test=1 then run testDemo')  # 测试某个功能
     parse.add_option('--justInfoGather', dest='justInfoGather', type='int', default=0, help='just infoGather, not detect vul')  # 只信息收集，不跑漏洞
     parse.add_option('--getSocks', dest='getSocks', type='int', default=0, help='get socks')  # 获取socks代理
+
 
     options, args = parse.parse_args()
     domain, cSubnet, isIntranet, proxy, File, weak, vpn, masNmapFile, fofaTitle, domainFile, web, ksubdomain, justInfoGather, testDemo, getSocks = options.domain, options.cSubnet, options.isIntranet, options.proxy, options.File, options.weak, options.vpn, options.masNmapFile, options.fofaTitle, options.domainFile, options.web, options.ksubdomain, options.justInfoGather, options.testDemo, options.getSocks
@@ -1437,10 +1447,47 @@ def _init():
     print(domain, cSubnet, isIntranet, proxy, File)
 
     # requests代理
+    # 内网代理
     if proxy:
         requests_proxies = {"http": "socks5://{}".format(proxy), "https": "socks5://{}".format(proxy)}
+    # 外网代理
     else:
-        requests_proxies = None
+        cf = configparser.ConfigParser()
+        cf.read("./iniFile/config.ini")
+
+        # 快代理配置
+        kuaidaili_tunnel = cf.get('kuaidaili', 'tunnel')
+        kuaidaili_username = cf.get('kuaidaili', 'username')
+        kuaidaili_password = cf.get('kuaidaili', 'password')
+        kuaidaili_thread_num = cf.get('kuaidaili', 'thread_num')
+        kuaidaili_switch = cf.get('kuaidaili', 'switch')
+        if kuaidaili_switch == "on":
+            requests_proxies = {
+                "http": "http://%(user)s:%(pwd)s@%(proxy)s/" % {"user": kuaidaili_username, "pwd": kuaidaili_password, "proxy": kuaidaili_tunnel},
+                "https": "http://%(user)s:%(pwd)s@%(proxy)s/" % {"user": kuaidaili_username, "pwd": kuaidaili_password, "proxy": kuaidaili_tunnel}
+            }
+
+            cprint('-' * 50 + 'Detect kuaidaili Config'.format(domain) + '-' * 50, 'green') # 验证代理是否有效
+            try:
+                kuaidaili_ips = []
+                for i in range(3):
+                    res = requests.get(url='https://www.taobao.com/help/getip.php', proxies=requests_proxies, timeout=10, verify=False)
+                    print(res.text)
+                    ip = re.findall(r'ip:"([\d\.]+)"', res.text)[0]
+                    print("此次请求IP: {}".format(ip))
+                    kuaidaili_ips.append(ip)
+                if len(kuaidaili_ips) == 3:
+                    cprint("快代理配置验证通过", 'red')
+                else:
+                    cprint("快代理配置验证失败", 'red')
+                    exit()
+            except Exception as OSError:
+                print("快代理配置错误或者快代理请求超时，请检查 {}".format(OSError.args))
+                exit()
+
+        else:
+            requests_proxies = None
+
 
     # 分割C段，获取ip
     if cSubnet:
@@ -1562,17 +1609,17 @@ def _init():
                 run_subdomain()
     elif testDemo == 1:
         # 测试代码
-        domain = ''
-        save_fold_path = os.getcwd() + '/result/' + str(uuid4()).split('-')[-1]  # 保存路径
-        os.makedirs(save_fold_path)
-        excel_name = domain
-        excelSavePath = '{}/{}.xlsx'.format(save_fold_path, excel_name)
-
-        CIP_List = []
-        Subdomains_ips = {}
-        notCDNSubdomains = []
-        param_Links = []
-        run_cSubnet(CIP_List, Subdomains_ips, notCDNSubdomains, param_Links)
+        # domain = ''
+        # save_fold_path = os.getcwd() + '/result/' + str(uuid4()).split('-')[-1]  # 保存路径
+        # os.makedirs(save_fold_path)
+        # excel_name = domain
+        # excelSavePath = '{}/{}.xlsx'.format(save_fold_path, excel_name)
+        #
+        # CIP_List = []
+        # Subdomains_ips = {}
+        # notCDNSubdomains = []
+        # param_Links = []
+        # run_cSubnet(CIP_List, Subdomains_ips, notCDNSubdomains, param_Links)
 
         alive_Web = ['']
         detect_webVul(alive_Web)

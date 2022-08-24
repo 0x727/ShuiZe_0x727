@@ -407,6 +407,26 @@ issues地址: https://github.com/0x727/ShuiZe_0x727/issues/120
 
 感谢 **Zimba5880** 反馈的建议
 
+2022.8.20 增加了快代理配置，漏洞检测时会使用快代理的代理池，这样可以避免当前IP被封后导致后续的扫描出现遗漏。
+
+购买快代理的隧道代理，地址：https://www.kuaidaili.com/cart?t=tps_c
+
+根据自己的需求选择包年包月或者按量付费，更换IP的频率。这里注意并发请求数的，并发数量越高，在配置文件里iniFile/config.ini的thread_num就可以设置的更高。
+
+假设并发数为5，那么thread_num不要设置超过10，具体的值自己测试。
+
+![](./imgs/kuaidaili1.png)
+
+购买后查看host、port、username、password，然后填入到配置文件里
+
+![](./imgs/kuaidaili2.png)
+
+![](./imgs/kuaidaili3.png)
+
+默认关闭快代理代理池功能，如果要开启，把switch设置为on，使用快代理代理池时会先验证是否配置正确
+
+![](./imgs/kuaidaili4.png)
+
 ## 0x08 反馈
 
 ShuiZe（水泽） 是一个免费且开源的项目，我们欢迎任何人为其开发和进步贡献力量。
