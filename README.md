@@ -427,6 +427,15 @@ issues地址: https://github.com/0x727/ShuiZe_0x727/issues/120
 
 ![](./imgs/kuaidaili4.png)
 
+2022.8.27 集成了ObserverWard扫描指纹
+
+项目地址：https://github.com/0x727/ObserverWard
+
+指纹地址：https://github.com/0x727/FingerprintHub
+
+![](./imgs/ObserverWard1.png)
+
+
 ## 0x08 反馈
 
 ShuiZe（水泽） 是一个免费且开源的项目，我们欢迎任何人为其开发和进步贡献力量。

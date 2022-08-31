@@ -830,8 +830,8 @@ def detect_webVul(alive_Web):
     tqdm.write(Fore.BLACK + '-' * 50 + 'detect Web vul' + '-' * 50)  # 探测各种漏洞
     webVul_list = []  # 存储Web漏洞，每个元素都是一个列表。[['shiro', 'http://127.0.0.1'], ['weblogic', 'http://127.0.0.1'], ['phpstudy', 'http://127.0.0.1']]
 
-    runSelfVul()
     runObserverWard()
+    runSelfVul()
     runNucleiVul()
     # print(webVul_list)
     return webVul_list

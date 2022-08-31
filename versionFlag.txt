@@ -11,3 +11,4 @@
 2022.8.12 ShuiZe增加Dockerfile安装方式
 2022.8.12 修复了大量反馈aiqicha脚本报错的问题，初步排查是被封IP的原因
 2022.8.12 修复了quakeApi没有title导致报错的情况
+2022.8.20 集成了ObserverWard扫描指纹
