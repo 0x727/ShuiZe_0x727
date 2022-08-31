@@ -811,6 +811,13 @@ def detect_webVul(alive_Web):
                 tqdm.write(Fore.BLACK + r'[-] Load Vul [{}] Error: {}'.format(vulName, e.args))
                 continue
 
+    # 调用ObserverWard跑指纹
+    def runObserverWard():
+        cprint('-' * 50 + 'Load ObserverWard ...' + '-' * 50, 'green')
+        from Plugins.Vul.ObserverWard.ObserverWardApi import run_observerWard
+        observerWardVul_list = run_observerWard(alive_Web)
+        webVul_list.extend(observerWardVul_list)
+
     # 调用Nuclei跑漏洞
     def runNucleiVul():
         cprint('-' * 50 + 'Load Nuclei ...' + '-' * 50, 'green')
@@ -818,10 +825,13 @@ def detect_webVul(alive_Web):
         nucleiVul_list = run_nuclei(alive_Web)
         webVul_list.extend(nucleiVul_list)
 
+
+
     tqdm.write(Fore.BLACK + '-' * 50 + 'detect Web vul' + '-' * 50)  # 探测各种漏洞
     webVul_list = []  # 存储Web漏洞，每个元素都是一个列表。[['shiro', 'http://127.0.0.1'], ['weblogic', 'http://127.0.0.1'], ['phpstudy', 'http://127.0.0.1']]
 
     runSelfVul()
+    runObserverWard()
     runNucleiVul()
     # print(webVul_list)
     return webVul_list
