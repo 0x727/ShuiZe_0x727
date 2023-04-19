@@ -18,3 +18,4 @@ script:
 - pytest
 - flake8 . --count --show-source --statistics
 - mypy --pretty theHarvester/discovery/*.py
+# Added comment - 
