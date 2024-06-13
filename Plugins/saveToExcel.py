@@ -187,7 +187,7 @@ class saveToExcel:
             if icp_info:
                 for each_icp in icp_info:
                     siteName, domain, icpNo = each_icp["siteName"], each_icp["domain"], each_icp["icpNo"]
-                    self.sheet.cell(self.Sheet_line, 1).value = '控股企业'
+                    self.sheet.cell(self.Sheet_line, 1).value = '分支机构'
                     self.sheet.cell(self.Sheet_line, 2).value = entName
                     self.sheet.cell(self.Sheet_line, 3).value = pid
                     self.sheet.cell(self.Sheet_line, 4).value = siteName

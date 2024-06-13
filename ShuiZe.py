@@ -9,6 +9,9 @@ import os
 # monkey.patch_all()
 import urllib3
 import openpyxl
+
+from Plugins.infoGather.subdomain.subdomainInterface.subdomainInterface import run_subdomainInterface
+
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 from uuid import uuid4
 import dns.resolver
@@ -258,6 +261,12 @@ def othersApiSubdomain():
     cprint('-' * 50 + 'Load VirusTotal threatcrowd url.fht.im ...' + '-' * 50, 'green')
     from Plugins.infoGather.subdomain.othersApiSubdomains.othersApiSubdomains import othersApiRun
     othersApiTotalSubdomains = othersApiRun(domain)          # 列表，存放子域名
+    return othersApiTotalSubdomains
+
+def interfaceSubdomain():
+    cprint('-' * 50 + 'Load VirusTotal threatcrowd url.fht.im ...' + '-' * 50, 'green')
+    # from Plugins.infoGather.subdomain.othersApiSubdomains.othersApiSubdomains import othersApiRun
+    othersApiTotalSubdomains = run_subdomainInterface(domain)          # 列表，存放子域名
     return othersApiTotalSubdomains
 
 # 调用github api的子域名收集脚本
@@ -1006,10 +1015,10 @@ def run_subdomain():
     # print('[total: {}] Subdomains3: {}'.format(len(Subdomains_ips), Subdomains_ips))
 
     # 0. beian2NewDomain
-    companyName = beian2NewDomain()
-
-    # 爱企查
-    Aiqicha(companyName)
+    # companyName = beian2NewDomain()
+    #
+    # # 爱企查
+    # Aiqicha(companyName)
 
     Subdomains_ips = {}
 
@@ -1037,10 +1046,11 @@ def run_subdomain():
     print('len [{}]'.format(len(subdomains)))
 
     # 2. virustotal|ce.baidu.com|www.threatcrowd.org|url.fht.im|qianxun
-    othersApiTotalSubdomains = othersApiSubdomain()
-    print('[total: {}] webAPI: {}'.format(len(othersApiTotalSubdomains), othersApiTotalSubdomains))
-    subdomains = printGetNewSubdomains(subdomains, othersApiTotalSubdomains)
-    print('len [{}]'.format(len(subdomains)))
+    subdomainInterface_context_list = interfaceSubdomain()
+    subdomainInterface_subdomains_list = []
+    for _ in subdomainInterface_context_list:
+        subdomainInterface_subdomains_list.extend(_['subdomains'])
+    subdomains = printGetNewSubdomains(subdomains, subdomainInterface_subdomains_list)
 
     # 3. github
     githubApiSubdomains = githubApiSubdomain()

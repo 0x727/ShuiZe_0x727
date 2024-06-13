@@ -221,5 +221,5 @@ def run_beian2domain(domain):
     return beianNewDomains, companyName
 
 if __name__ == '__main__':
-    domain = 'xxxxxx'
+    domain = 'taobao.com'
     run_beian2domain(domain)

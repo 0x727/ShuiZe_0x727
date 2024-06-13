@@ -395,8 +395,8 @@ def othersApiSearch():
 def init(_):
     global virustotalApi, securitytrailsApi, headers, domain
     cf = configparser.ConfigParser()
-    cf.read("./iniFile/config.ini")
-    # cf.read("../../../../iniFile/config.ini")     # 测试用
+    # cf.read("./iniFile/config.ini")
+    cf.read("../../../../iniFile/config.ini")     # 测试用
     virustotalApi = cf.get('virustotal api', 'VIRUSTOTAL_API')  # virustotal Api
     securitytrailsApi = cf.get('securitytrails api', 'Securitytrails_API')
     headers = {
@@ -414,7 +414,7 @@ def othersApiRun(domain):
 
 
 if __name__ == '__main__':
-    domain = 'xxxxx'
+    domain = 'hbu.cn'
     headers = {
         'user-agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
 
