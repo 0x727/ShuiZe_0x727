@@ -1095,7 +1095,7 @@ def run_subdomain():
     censysIPS = hostCollide(Subdomains_ips)
 
     # 8. 获取所有子域名的参数链接（存活）
-    param_Links = run_ParamLinks()
+    param_Links = [] # run_ParamLinks()
 
     # 获取C段的IP
     CIP_List = get_CIP(Subdomains_ips, CDNSubdomainsDict, censysIPS)

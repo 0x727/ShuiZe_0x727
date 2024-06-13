@@ -50,7 +50,7 @@ def getLinks(domain):
 
     try:
         url = f"http://web.archive.org/cdx/search/cdx?url=*.{domain}/*&output=txt&fl=original&collapse=urlkey&page=/"
-        res = requests.get(url=url, headers=headers)
+        res = requests.get(url=url, headers=headers, timeout=TIMEOUT)
         text = res.text
         # with open('test.txt', 'wt') as f:
         #     f.write(text)
