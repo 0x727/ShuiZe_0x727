@@ -1396,6 +1396,33 @@ def checkVersion():
     except Exception as e:
         print('获取版本信息失败...')
 
+# 根据所给的cidr字符串获取所有的ip
+def get_subnet(subnet: str):
+    cips = []
+    if subnet:
+        cip_list = subnet.split(',')
+        # 如果 c 段字符串不包含 /和-，则默认跑 c 段，否则根据用户所填写的实际段来跑
+        if '/' not in subnet and '-' not in subnet:
+            for cip in cip_list:
+                cip = str(IP(IP(cip).int() >> 8 << 8))
+                cips.append('{}/24'.format(cip))
+        else:
+            for cip in cip_list:
+                # 127.0.0.0-127.255.255.255
+                if '-' in cip:
+                    # 不使用IPy处理是因为IPy不支持类似 127.0.0.2-127.255.255.255
+                    ip_start, ip_end = cip.split('-')
+                    for ip_int in range(IP(ip_start).int(), IP(ip_end).int()+1):
+                        cips.append(str(IP(ip_int)))
+                else:
+                    ip_, mask_ = cip.split('/')
+                    mask_ = int(mask_ or 32)
+                    ip_ = str(IP(IP(ip_).int() >> (32 - mask_) << (32 - mask_)))
+                    cips.append('{}/{}'.format(ip_, mask_))
+    for cip in cips:
+        for ip in IP(cip):
+            yield ip
+
 # 初始配置
 def _init():
     global domain, cSubnet, save_fold_path, excel, excel_name, excelSavePath, proxy, \
@@ -1509,12 +1536,9 @@ def _init():
 
 
     # 分割C段，获取ip
-    if cSubnet:
-        CIP_List = cSubnet.split(',')
-        for CIP in CIP_List:
-            for ip in IP('{}/24'.format(CIP)):
-                allTargets_Queue.put(str(ip))
-                allTargets_List.append(str(ip))
+    for ip in get_subnet(cSubnet):
+        allTargets_Queue.put(str(ip))
+        allTargets_List.append(str(ip))  
 
     # 扫描外网时加载文件扫描
     if File and not isIntranet:
