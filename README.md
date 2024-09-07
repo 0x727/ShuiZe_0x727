@@ -56,6 +56,7 @@ rm /usr/bin/python3
 ln -s /usr/local/bin/python3.8 /usr/bin/python3
 python3 -m pip install --upgrade pip
 git clone https://github.com/0x727/ShuiZe_0x727.git
+cd ShuiZe_0x727
 chmod 777 docker_build.sh
 ./docker_build.sh
 ```
