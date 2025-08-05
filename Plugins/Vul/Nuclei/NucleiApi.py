@@ -39,7 +39,7 @@ def run_nuclei(alive_Web):
     os.system(nucleiUpdateCMD)
 
     # 运行nuclei检测漏洞
-    nucleiCMD = '{}/nuclei -l {} {} -json -o {}'.format(nucleiFolder, urlFilePath, nuclei_config, nucleiResultPath)
+    nucleiCMD = '{}/nuclei -l {} {} -jsonl -o {}'.format(nucleiFolder, urlFilePath, nuclei_config, nucleiResultPath)
     print("[nucleiCMD] : {}".format(nucleiCMD))
     os.system(nucleiCMD)
 
